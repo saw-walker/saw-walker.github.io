@@ -1,10 +1,10 @@
-# saw-walker.github.io
+# saw-walker
 
 Public website for the **SAW (Socially Assistive Walker)** PhD project by Sergio D. Sierra Marín
 (Bristol Robotics Laboratory, UWE Bristol). Visitors reach it by scanning a QR code at a museum,
 so it is built mobile-first, loads fast and needs no build step.
 
-Live URL (once published): https://saw-walker.github.io/
+Live URL: https://sergiosierram.github.io/saw-walker/
 
 ## Structure
 
@@ -70,14 +70,8 @@ Candidate local footage (not copied here) in `~/OneDrive - UWE Bristol/video/`:
 
 ## Publishing on GitHub Pages
 
-1. Create a **public** repository named exactly `saw-walker.github.io` under the `saw-walker` GitHub organisation.
-2. Push this repository:
-   ```sh
-   git remote add origin https://github.com/saw-walker/saw-walker.github.io.git
-   git push -u origin main
-   ```
-3. In the repository go to **Settings → Pages**, set **Source** to *Deploy from a branch*, and choose `main` and `/ (root)`.
-4. After a minute the site is live at https://saw-walker.github.io/. Generate the museum QR code from that URL.
+Published from `main` (root) of https://github.com/sergiosierram/saw-walker. Every push to `main`
+redeploys https://sergiosierram.github.io/saw-walker/, which is the URL in the museum kiosk QR code.
 
 To preview locally, open `index.html` in a browser, or run `python3 -m http.server` in this folder.
 
