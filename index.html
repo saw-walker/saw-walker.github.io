@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>SAW Smart Walker</title>
+  <meta name="description" content="The SAW Socially Assistive Walker: a smart walker from Bristol Robotics Laboratory that senses how you walk and gives gentle light, touch and voice feedback.">
+  <meta name="theme-color" content="#14186b" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d1020" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <meta property="og:title" content="SAW Smart Walker">
+  <meta property="og:description" content="A socially assistive walker that helps older adults walk safely and stay independent.">
+  <meta property="og:image" content="assets/img/logo.png">
+  <link rel="icon" type="image/png" href="assets/img/icon-180.png">
+  <link rel="apple-touch-icon" href="assets/img/icon-180.png">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!--
+  ===================================================================
+   PROJECT VIDEO: set ONE of these and the "coming soon" poster is
+   replaced automatically. Leave both empty to keep the poster.
+     youtubeId: the part after "v=" in a YouTube link, e.g. "dQw4w9WgXcQ"
+     mp4:       a path or URL to an .mp4 file, e.g. "assets/video/saw.mp4"
+     poster:    optional image shown before an mp4 plays
+  ===================================================================
+  -->
+  <script>
+    window.SAW_CONFIG = {
+      video: {
+        youtubeId: "",
+        mp4: "",
+        poster: ""
+      }
+    };
+  </script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <a class="brand" href="#top" aria-label="SAW Smart Walker, back to top">
+    <span class="brand-tile"><img src="assets/img/icon-180.png" alt="" width="36" height="36"></span>
+    <span class="brand-name">SAW Smart Walker</span>
+  </a>
+  <div class="tools">
+    <button type="button" class="tool" id="textSize" aria-pressed="false" title="Make the text bigger">
+      <span aria-hidden="true">A<span class="plus">+</span></span><span class="sr">Larger text</span>
+    </button>
+    <button type="button" class="tool" id="motionToggle" aria-pressed="false" title="Pause or play all animations">
+      <span class="ico-pause" aria-hidden="true">❚❚</span><span class="ico-play" aria-hidden="true">▶</span><span class="sr" id="motionLabel">Pause animations</span>
+    </button>
+  </div>
+</header>
+
+<nav class="quicknav" aria-label="Sections">
+  <a href="#video">Video</a>
+  <a href="#how">How it works</a>
+  <a href="#publications">Papers</a>
+  <a href="#thesis">Thesis</a>
+  <a href="#team">Team</a>
+</nav>
+
+<main id="main">
+
+<!-- ============================== HERO ============================== -->
+<section class="hero" id="top">
+  <div class="hero-logo">
+    <img src="assets/img/logo.png" alt="SAW Smart Walker logo: the letters SW and a walker, under the BRL badge" width="480" height="480">
+  </div>
+  <div class="hero-text">
+    <p class="eyebrow">Bristol Robotics Laboratory · UWE Bristol</p>
+    <h1>Meet SAW, the Socially Assistive Walker</h1>
+    <p class="lede">
+      SAW looks like an ordinary wheeled walker, but it can sense how you are walking and talk back.
+      Sensors near the floor follow your steps, the handles feel how you lean on them, and a camera checks whether you are standing, leaning or sitting.
+      The walker then helps in gentle ways: its handles light up and vibrate to show which way to go, it applies its brakes before you sit down,
+      and a friendly face on its screen reminds you about everyday tasks such as taking medication.
+      Older adults and carers helped design it, so that people can keep walking safely and independently at home.
+    </p>
+    <a class="cta" href="#how">See how it works <span aria-hidden="true">↓</span></a>
+  </div>
+</section>
+
+<!-- ============================== VIDEO ============================== -->
+<section class="section" id="video" aria-labelledby="video-h">
+  <h2 id="video-h">Watch the walker</h2>
+  <div class="video-slot" id="videoSlot">
+    <div class="video-poster" role="img" aria-label="Video coming soon">
+      <svg viewBox="0 0 320 180" aria-hidden="true" class="poster-art">
+        <defs>
+          <linearGradient id="pg" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0" stop-color="var(--brand)"/>
+            <stop offset="1" stop-color="var(--brand-2)"/>
+          </linearGradient>
+        </defs>
+        <rect width="320" height="180" rx="14" fill="url(#pg)"/>
+        <g class="poster-walker" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none">
+          <path d="M118 52 L146 60"/>
+          <path d="M146 60 L132 140"/>
+          <path d="M146 60 L204 140"/>
+          <path d="M140 98 H178"/>
+          <circle cx="132" cy="148" r="9" fill="#fff"/>
+          <circle cx="204" cy="148" r="9" fill="#fff"/>
+        </g>
+        <g class="poster-play">
+          <circle cx="258" cy="56" r="22" fill="#fff" opacity=".18"/>
+          <path d="M251 45 l20 11 -20 11z" fill="#fff"/>
+        </g>
+      </svg>
+      <p class="poster-label">Video coming soon</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== HOW IT WORKS ============================== -->
+<section class="section" id="how" aria-labelledby="how-h">
+  <h2 id="how-h">How it works</h2>
+  <p class="section-intro">
+    Every feature below is taken from the walker's real software. The walker <strong>senses</strong>, a small computer <strong>thinks</strong>,
+    and the walker <strong>responds</strong> with light, touch, voice, its screen or its brakes.
+    Tap <em>Next</em> on any picture to step through it yourself.
+  </p>
+
+  <figure class="photo">
+    <img src="assets/img/saw-hardware.jpg" width="900" height="1004" loading="lazy"
+         alt="Photo of the SAW walker with labelled parts: tablet on a pole, pressure sensors and haptic handles with lights, a camera and a speaker on the crossbar, an IMU and the onboard electronics under the seat, wheel encoders, a front LiDAR and a user-facing LiDAR near the floor.">
+    <figcaption>The SAW prototype and where its parts sit.</figcaption>
+  </figure>
+
+  <!-- ---------- System overview ---------- -->
+  <article class="demo demo-wide" data-demo="system" aria-labelledby="sys-h">
+    <h3 id="sys-h">The whole system: sense, think, respond</h3>
+    <div class="demo-body">
+      <svg class="anim" viewBox="0 0 340 560" role="img" aria-labelledby="sys-t sys-d">
+        <title id="sys-t">System diagram</title>
+        <desc id="sys-d">Six sensors (user LiDAR, front LiDAR, camera, handle force sensors, IMU with wheel encoders, microphone) send data to a Raspberry Pi running ROS. The Pi drives an ESP32 controller for handle lights, vibration and brakes, and a tablet and speaker for the companion face and voice.</desc>
+        <text class="lbl-cap" x="170" y="22" text-anchor="middle">SENSE</text>
+        <g class="node" id="sys-s-ulidar"><rect x="6" y="32" width="150" height="38" rx="9"/><text x="81" y="56" text-anchor="middle">User LiDAR · legs</text></g>
+        <g class="node" id="sys-s-flidar"><rect x="184" y="32" width="150" height="38" rx="9"/><text x="259" y="56" text-anchor="middle">Front LiDAR · obstacles</text></g>
+        <g class="node" id="sys-s-cam"><rect x="6" y="78" width="150" height="38" rx="9"/><text x="81" y="102" text-anchor="middle">Camera · posture</text></g>
+        <g class="node" id="sys-s-fsr"><rect x="184" y="78" width="150" height="38" rx="9"/><text x="259" y="102" text-anchor="middle">Handle force sensors</text></g>
+        <g class="node" id="sys-s-odo"><rect x="6" y="124" width="150" height="38" rx="9"/><text x="81" y="148" text-anchor="middle">IMU + wheel encoders</text></g>
+        <g class="node" id="sys-s-mic"><rect x="184" y="124" width="150" height="38" rx="9"/><text x="259" y="148" text-anchor="middle">Microphone · speech</text></g>
+
+        <g class="flows">
+          <path class="flow" id="sys-f-ulidar" d="M156 51 C164 51 162 60 162 212"/>
+          <path class="flow" id="sys-f-flidar" d="M184 51 C176 51 178 60 178 212"/>
+          <path class="flow" id="sys-f-cam" d="M156 97 C165 97 165 106 165 212"/>
+          <path class="flow" id="sys-f-fsr" d="M184 97 C175 97 175 106 175 212"/>
+          <path class="flow" id="sys-f-odo" d="M156 143 C168 143 168 152 168 212"/>
+          <path class="flow" id="sys-f-mic" d="M184 143 C172 143 172 152 172 212"/>
+        </g>
+
+        <text class="lbl-cap" x="170" y="204" text-anchor="middle">THINK</text>
+        <g class="node node-core" id="sys-pi">
+          <rect x="30" y="212" width="280" height="104" rx="14"/>
+          <text class="core-title" x="170" y="240" text-anchor="middle">Raspberry Pi · ROS</text>
+          <text x="170" y="264" text-anchor="middle">leg tracking · gait · posture · balance</text>
+          <text x="170" y="284" text-anchor="middle">navigation · behaviours · companion</text>
+          <text x="170" y="304" text-anchor="middle" class="small">speech recognition &amp; chat</text>
+        </g>
+
+        <path class="flow" id="sys-f-esp" d="M110 316 V360"/>
+        <path class="flow" id="sys-f-tab" d="M230 316 V360"/>
+        <g class="node node-mid" id="sys-esp"><rect x="8" y="360" width="200" height="40" rx="9"/><text x="108" y="385" text-anchor="middle">ESP32-S3 controller</text></g>
+        <g class="node node-mid" id="sys-tab"><rect x="216" y="360" width="116" height="40" rx="9"/><text x="274" y="385" text-anchor="middle">Tablet + speaker</text></g>
+
+        <text class="lbl-cap" x="170" y="428" text-anchor="middle">RESPOND</text>
+        <path class="flow" id="sys-f-lights" d="M50 400 V440"/>
+        <path class="flow" id="sys-f-vibe" d="M108 400 V488"/>
+        <path class="flow" id="sys-f-brakes" d="M166 400 V440"/>
+        <path class="flow" id="sys-f-face" d="M250 400 V440"/>
+        <path class="flow" id="sys-f-voice" d="M316 400 V492"/>
+        <g class="node node-out" id="sys-o-lights"><rect x="8" y="440" width="84" height="40" rx="9"/><text x="50" y="465" text-anchor="middle">Lights</text></g>
+        <g class="node node-out" id="sys-o-vibe"><rect x="66" y="488" width="84" height="40" rx="9"/><text x="108" y="513" text-anchor="middle">Vibration</text></g>
+        <g class="node node-out" id="sys-o-brakes"><rect x="124" y="440" width="84" height="40" rx="9"/><text x="166" y="465" text-anchor="middle">Brakes</text></g>
+        <g class="node node-out" id="sys-o-face"><rect x="216" y="440" width="70" height="40" rx="9"/><text x="251" y="465" text-anchor="middle">Face</text></g>
+        <g class="node node-out" id="sys-o-voice"><rect x="258" y="492" width="74" height="40" rx="9"/><text x="295" y="517" text-anchor="middle">Voice</text></g>
+      </svg>
+      <div class="demo-side">
+        <p class="status"><span class="pill is-neutral" data-role="pill">Example</span></p>
+        <ol class="steps" data-role="list" aria-live="polite">
+          <li>User LiDAR finds your legs → if you drift out of the comfort zone, the handle lights change from green to yellow.</li>
+          <li>Handle force sensors notice you pressing much harder on one side → the walker says “Try to keep a gentle, even pressure through both hands.”</li>
+          <li>Camera sees you have sat down → the companion invites you to chat.</li>
+          <li>IMU and wheel encoders track where you are → on a saved route, the light and vibration on one handle say “turn this way”, and the voice says “Turn left”.</li>
+          <li>Front LiDAR checks the way ahead → like a parking sensor, the blocked side lights up red.</li>
+          <li>Before you sit down to rest → the walker applies its brakes and tells you on screen.</li>
+        </ol>
+        <div class="controls"><button type="button" class="btn" data-role="next">Next <span aria-hidden="true">›</span></button></div>
+      </div>
+    </div>
+  </article>
+
+  <div class="demo-grid">
+
+  <!-- ---------- Legs & gait ---------- -->
+  <article class="demo" data-demo="legs" aria-labelledby="legs-h">
+    <h3 id="legs-h"><span class="tag">Sense</span> Following your steps with a laser</h3>
+    <svg class="anim" viewBox="0 0 320 270" role="img" aria-labelledby="legs-t legs-d">
+      <title id="legs-t">Leg tracking seen from above</title>
+      <desc id="legs-d">A laser scanner at the back of the walker sweeps across the user's legs. A dashed box marks the comfort zone. When the legs leave the zone the handle lights change colour.</desc>
+      <g class="frame">
+        <path d="M70 20 H250 M75 20 V126 M245 20 V126" />
+      </g>
+      <rect class="led" data-role="ledL" x="62" y="96" width="26" height="34" rx="6"/>
+      <rect class="led" data-role="ledR" x="232" y="96" width="26" height="34" rx="6"/>
+      <path class="fan" d="M160 118 L40 268 H280 Z"/>
+      <line class="sweep" x1="160" y1="118" x2="160" y2="262"/>
+      <rect class="zone" x="104" y="160" width="112" height="62" rx="8"/>
+      <text class="lbl small" x="160" y="236" text-anchor="middle">comfort zone</text>
+      <circle class="lidar" cx="160" cy="118" r="8"/>
+      <g class="foot-wrap" data-role="feet">
+        <g class="foot foot-l"><ellipse cx="140" cy="191" rx="11" ry="15"/><text x="140" y="196" text-anchor="middle">L</text></g>
+        <g class="foot foot-r"><ellipse cx="180" cy="191" rx="11" ry="15"/><text x="180" y="196" text-anchor="middle">R</text></g>
+      </g>
+      <text class="lbl small" x="160" y="14" text-anchor="middle">front of walker</text>
+    </svg>
+    <p class="status" aria-live="polite"><span class="pill" data-role="pill">OK</span> <span data-role="caption">Legs in the comfort zone.</span></p>
+    <dl class="metrics" aria-label="Example gait metrics">
+      <div><dt>Step length</dt><dd data-role="m-step">0.42 m</dd></div>
+      <div><dt>Cadence</dt><dd data-role="m-cad">96 steps/min</dd></div>
+      <div><dt>Speed</dt><dd data-role="m-spd">0.62 m/s</dd></div>
+    </dl>
+    <p class="note">Example numbers for illustration.</p>
+    <details>
+      <summary>How it works</summary>
+      <p>A 2D LiDAR near the floor faces you and scans about ten times a second. The software groups the laser points into clusters (DBSCAN), keeps the two that look like legs, and follows each one with its own Kalman filter, so a leg briefly hidden behind the other is not lost.</p>
+      <p>Each time a foot passes the other, a step is counted. From the steps it calculates <strong>step length</strong>, <strong>cadence</strong> (steps per minute) and <strong>walking speed</strong>, and these feed a gait report on the screen.</p>
+      <p>It also compares where your legs are with a comfort zone behind the walker and reports <em>too far</em>, <em>too close</em>, <em>off centre</em> or <em>legs crossing</em>. During a walk, the handle lights stay <span class="sw sw-green"></span> green when legs, posture and handle pressure are all fine, and turn more <span class="sw sw-yellow"></span> yellow the more of them are off.</p>
+    </details>
+    <div class="controls"><button type="button" class="btn" data-role="next">Next <span aria-hidden="true">›</span></button></div>
+  </article>
+
+  <!-- ---------- Balance (FSR) ---------- -->
+  <article class="demo" data-demo="balance" aria-labelledby="bal-h">
+    <h3 id="bal-h"><span class="tag">Sense</span> Handles that feel your weight</h3>
+    <svg class="anim" viewBox="0 0 320 210" role="img" aria-labelledby="bal-t bal-d">
+      <title id="bal-t">Left and right handle pressure</title>
+      <desc id="bal-d">Two bars show how hard each hand presses on its handle. A balance beam tilts towards the heavier side.</desc>
+      <g class="meter">
+        <rect class="track" x="52" y="24" width="36" height="110" rx="8"/>
+        <rect class="fill" data-role="barL" x="52" y="24" width="36" height="110" rx="8"/>
+        <rect class="track" x="232" y="24" width="36" height="110" rx="8"/>
+        <rect class="fill" data-role="barR" x="232" y="24" width="36" height="110" rx="8"/>
+      </g>
+      <text class="lbl" x="70" y="158" text-anchor="middle">Left</text>
+      <text class="lbl" x="250" y="158" text-anchor="middle">Right</text>
+      <g class="beam" data-role="beam">
+        <line x1="110" y1="80" x2="210" y2="80"/>
+        <circle cx="110" cy="80" r="7"/><circle cx="210" cy="80" r="7"/>
+      </g>
+      <path class="pivot" d="M160 84 l-12 22 h24z"/>
+      <rect class="grip" x="34" y="170" width="72" height="22" rx="11"/>
+      <rect class="grip" x="214" y="170" width="72" height="22" rx="11"/>
+      <text class="lbl small" x="160" y="186" text-anchor="middle">force sensors in each grip</text>
+    </svg>
+    <p class="status" aria-live="polite"><span class="pill" data-role="pill">Balanced</span> <span data-role="caption">Even pressure on both handles.</span></p>
+    <details>
+      <summary>How it works</summary>
+      <p>Each handle has force-sensing resistors (FSRs). Their readings are averaged per handle and published left and right, many times a second.</p>
+      <p>The walker compares the two sides with a balance index, the difference divided by the total, <code>|R − L| / (R + L)</code>. Up to 0.2 counts as balanced. If both hands come off, it knows nobody is holding on.</p>
+      <p>During a guided walk, if one side carries clearly more weight, the walker gently says: <q>Try to keep a gentle, even pressure through both hands.</q> It waits a while before repeating itself, so it does not nag.</p>
+    </details>
+    <div class="controls"><button type="button" class="btn" data-role="next">Next <span aria-hidden="true">›</span></button></div>
+  </article>
+
+  <!-- ---------- Odometry ---------- -->
+  <article class="demo" data-demo="odometry" aria-labelledby="odo-h">
+    <h3 id="odo-h"><span class="tag">Sense</span> Knowing where it has been</h3>
+    <svg class="anim" viewBox="0 0 320 210" role="img" aria-labelledby="odo-t odo-d">
+      <title id="odo-t">Odometry from wheels and IMU</title>
+      <desc id="odo-d">A wheel turns and counts encoder ticks, a compass needle shows the heading from the IMU, and together they trace the walker's path on a small map.</desc>
+      <g data-role="wheel" class="wheel">
+        <circle cx="56" cy="62" r="38"/>
+        <path d="M56 24 V100 M18 62 H94 M29 35 L83 89 M83 35 L29 89"/>
+      </g>
+      <text class="lbl small" x="56" y="120" text-anchor="middle">wheel encoder</text>
+      <text class="lbl mono" data-role="ticks" x="56" y="138" text-anchor="middle">0 ticks</text>
+      <circle class="dial" cx="56" cy="172" r="26"/>
+      <text class="lbl tiny" x="56" y="142" text-anchor="middle" dy="17">N</text>
+      <path class="needle" data-role="needle" d="M56 154 L62 172 L56 190 L50 172 Z"/>
+      <text class="lbl small" x="56" y="208" text-anchor="middle">IMU heading</text>
+      <rect class="map" x="118" y="8" width="194" height="194" rx="12"/>
+      <path class="route-ghost" d="M150 186 C150 120 170 96 214 96 S286 70 286 30"/>
+      <path class="route" data-role="route" d="M150 186 C150 120 170 96 214 96 S286 70 286 30"/>
+      <g data-role="dot" class="walker-dot"><circle r="9"/><path d="M0 -15 L5 -7 H-5 Z"/></g>
+    </svg>
+    <p class="status" aria-live="polite"><span class="pill" data-role="pill">Tracking</span> <span data-role="caption">Distance from the wheels, direction from the IMU.</span></p>
+    <details>
+      <summary>How it works</summary>
+      <p>Encoders on the rear wheels count tiny steps of rotation, which tells the walker how far it has rolled. An IMU (a BNO08x motion sensor, fused with a Madgwick filter) gives the direction it is facing.</p>
+      <p>The walker adds up “this far, in this direction” many times a second to estimate its position. This is called <strong>odometry</strong>. It lets the walker record a route, for example from the sofa to the kitchen, and guide you back along it later.</p>
+    </details>
+    <div class="controls"><button type="button" class="btn" data-role="next">Next <span aria-hidden="true">›</span></button></div>
+  </article>
+
+  <!-- ---------- Posture ---------- -->
+  <article class="demo" data-demo="posture" aria-labelledby="pos-h">
+    <h3 id="pos-h"><span class="tag">Sense</span> Standing, leaning or seated?</h3>
+    <svg class="anim" viewBox="0 0 320 250" role="img" aria-labelledby="pos-t pos-d">
+      <title id="pos-t">Posture from the camera</title>
+      <desc id="pos-d">A camera on the walker crossbar looks up at the user's shoulders. Tilting, leaning forward and sitting down change the shoulder line, size and height.</desc>
+      <path class="cone" d="M160 178 L60 20 H260 Z"/>
+      <g class="figure" data-role="fig">
+        <circle class="head" cx="160" cy="56" r="20"/>
+        <path class="body" d="M124 92 Q160 82 196 92 L190 176 H130 Z"/>
+        <path class="arm" d="M124 94 Q104 130 94 172 M196 94 Q216 130 226 172"/>
+        <line class="shoulder-line" x1="124" y1="92" x2="196" y2="92"/>
+        <circle class="lm" cx="124" cy="92" r="5"/><circle class="lm" cx="196" cy="92" r="5"/>
+      </g>
+      <g class="frame">
+        <path d="M70 180 H250 M80 180 V246 M240 180 V246"/>
+      </g>
+      <rect class="grip" x="78" y="166" width="30" height="16" rx="8"/>
+      <rect class="grip" x="212" y="166" width="30" height="16" rx="8"/>
+      <rect class="cam" x="148" y="172" width="24" height="16" rx="4"/>
+      <circle class="cam-lens" cx="160" cy="180" r="4"/>
+      <text class="lbl small" x="160" y="204" text-anchor="middle">camera</text>
+    </svg>
+    <p class="status" aria-live="polite"><span class="pill" data-role="pill">Standing</span> <span data-role="caption">Shoulders level and at the calibrated height.</span></p>
+    <details>
+      <summary>How it works</summary>
+      <p>A camera sits at hip height on the walker and looks up at you. Body-tracking software (MediaPipe) finds your shoulders, and the walker compares them with your own calibrated upright posture:</p>
+      <ul>
+        <li><strong>Tilted left or right</strong>: the shoulder line rotates.</li>
+        <li><strong>Leaning forward</strong>: your shoulders look wider because they are closer, and your feet (seen by the laser) are further back.</li>
+        <li><strong>Seated</strong>: your shoulders drop well below their standing height.</li>
+      </ul>
+      <p>When the walker sees you sit down after a walk, the companion can start a conversation with you.</p>
+    </details>
+    <div class="controls"><button type="button" class="btn" data-role="next">Next <span aria-hidden="true">›</span></button></div>
+  </article>
+
+  <!-- ---------- ESP32 ---------- -->
+  <article class="demo" data-demo="esp32" aria-labelledby="esp-h">
+    <h3 id="esp-h"><span class="tag">Respond</span> Lights, vibration and brakes</h3>
+    <svg class="anim" viewBox="0 0 320 240" role="img" aria-labelledby="esp-t esp-d">
+      <title id="esp-t">ESP32 hardware controller</title>
+      <desc id="esp-d">The Raspberry Pi sends short text commands to an ESP32 microcontroller, which drives the handle LED strips, the vibration motors and the brake actuators, and reports wheel encoder counts back.</desc>
+      <rect class="box" x="8" y="20" width="96" height="44" rx="9"/><text class="lbl" x="56" y="47" text-anchor="middle">Raspberry Pi</text>
+      <path class="flow on" d="M56 64 V100"/>
+      <text class="lbl tiny" x="64" y="86">serial</text>
+      <rect class="box chip" x="8" y="100" width="96" height="64" rx="9"/>
+      <text class="lbl" x="56" y="128" text-anchor="middle">ESP32-S3</text>
+      <text class="lbl tiny" x="56" y="146" text-anchor="middle">5 RTOS tasks</text>
+      <path class="flow on" d="M104 116 C130 116 130 44 150 44"/>
+      <path class="flow on" d="M104 132 H150"/>
+      <path class="flow on" d="M104 148 C130 148 130 210 150 210"/>
+      <g data-role="strip" class="strip">
+        <rect x="154" y="32" width="14" height="24" rx="3"/><rect x="170" y="32" width="14" height="24" rx="3"/>
+        <rect x="186" y="32" width="14" height="24" rx="3"/><rect x="202" y="32" width="14" height="24" rx="3"/>
+        <rect x="218" y="32" width="14" height="24" rx="3"/><rect x="234" y="32" width="14" height="24" rx="3"/>
+        <rect x="250" y="32" width="14" height="24" rx="3"/><rect x="266" y="32" width="14" height="24" rx="3"/>
+        <rect x="282" y="32" width="14" height="24" rx="3"/><rect x="298" y="32" width="14" height="24" rx="3"/>
+      </g>
+      <text class="lbl small" x="232" y="20" text-anchor="middle">LED strip in each handle</text>
+      <g class="vib" data-role="vib">
+        <rect class="motor" x="154" y="118" width="40" height="28" rx="14"/>
+        <path class="wave" d="M202 122 q6 10 0 20 M214 116 q10 16 0 32 M226 110 q14 22 0 44"/>
+      </g>
+      <text class="lbl small" x="282" y="136" text-anchor="middle">vibration</text>
+      <g class="brake">
+        <rect class="cyl" x="154" y="198" width="54" height="24" rx="6"/>
+        <rect class="rod" data-role="rod" x="208" y="205" width="40" height="10" rx="3"/>
+        <circle class="wheel-b" cx="286" cy="210" r="24"/>
+      </g>
+      <text class="lbl small" x="182" y="190" text-anchor="middle">brake actuator</text>
+    </svg>
+    <p class="status" aria-live="polite"><code class="cmd" data-role="cmd">leds left 0 255 0 20</code></p>
+    <p class="caption-line" data-role="caption">Left handle glows green.</p>
+    <details>
+      <summary>How it works</summary>
+      <p>An ESP32-S3 microcontroller on a Raspberry Pi shield handles the fast, physical jobs. Its firmware runs five real-time (FreeRTOS) tasks: the two handle LED strips (20 LEDs each, any colour and brightness), the left and right vibration motors (pulsing 200 ms on, 200 ms off), the two electro-mechanical brakes, two servo outputs, and the wheel encoders.</p>
+      <p>The Pi talks to it with short text commands, like the ones shown above, and the ESP32 streams back the encoder counts. Its firmware can even be updated over Wi-Fi.</p>
+      <p>The brakes are used when safety matters: before you sit down in a resting session the walker says “The brakes are being engaged.”, and in a fall-detection demonstration it applies the brakes, turns the lights red and asks “Are you okay?”.</p>
+    </details>
+    <div class="controls"><button type="button" class="btn" data-role="next">Next <span aria-hidden="true">›</span></button></div>
+  </article>
+
+  <!-- ---------- Companion ---------- -->
+  <article class="demo" data-demo="companion" aria-labelledby="comp-h">
+    <h3 id="comp-h"><span class="tag">Respond</span> A friendly companion on the screen</h3>
+    <div class="tabs" role="group" aria-label="Choose an activity">
+      <button type="button" class="tab" aria-pressed="true" data-task="medication">Medication</button>
+      <button type="button" class="tab" aria-pressed="false" data-task="walk">Walking</button>
+      <button type="button" class="tab" aria-pressed="false" data-task="rest">Resting</button>
+      <button type="button" class="tab" aria-pressed="false" data-task="chat">Chat</button>
+    </div>
+    <svg class="anim" viewBox="0 0 320 200" role="img" aria-labelledby="comp-t comp-d">
+      <title id="comp-t">Companion face</title>
+      <desc id="comp-d">A tablet shows an animated face with blinking eyes and a mouth that moves while it speaks. Its expression changes with the situation.</desc>
+      <rect class="tablet" x="40" y="8" width="240" height="160" rx="16"/>
+      <rect class="screen" x="52" y="20" width="216" height="136" rx="10"/>
+      <g class="face" data-role="face" data-emotion="neutral">
+        <g class="eyes">
+          <g class="eye eye-l"><ellipse class="eye-o" cx="125" cy="72" rx="16" ry="20"/><path class="eye-arc" d="M109 76 Q125 56 141 76"/><path class="brow" d="M106 54 L142 44"/></g>
+          <g class="eye eye-r"><ellipse class="eye-o" cx="195" cy="72" rx="16" ry="20"/><path class="eye-arc" d="M179 76 Q195 56 211 76"/><path class="brow" d="M214 54 L178 44"/></g>
+        </g>
+        <path class="mouth m-smile" d="M134 118 Q160 140 186 118"/>
+        <path class="mouth m-flat" d="M138 124 H182"/>
+        <path class="mouth m-sad" d="M136 132 Q160 114 184 132"/>
+        <ellipse class="mouth m-o" cx="160" cy="124" rx="11" ry="13"/>
+      </g>
+      <rect class="pole" x="152" y="168" width="16" height="30"/>
+    </svg>
+    <div class="bubble" aria-live="polite">
+      <p class="bubble-title" data-role="title">Medication</p>
+      <p data-role="caption">We will simulate the process of taking medication.</p>
+      <p class="step-count" data-role="count">Step 1</p>
+    </div>
+    <div class="tabs faces" role="group" aria-label="Try a facial expression">
+      <span class="note">Try a face:</span>
+      <button type="button" class="tab tab-sm" data-emotion="neutral">Neutral</button>
+      <button type="button" class="tab tab-sm" data-emotion="happy">Happy</button>
+      <button type="button" class="tab tab-sm" data-emotion="sad">Sad</button>
+      <button type="button" class="tab tab-sm" data-emotion="concerned">Concerned</button>
+      <button type="button" class="tab tab-sm" data-emotion="surprised">Surprised</button>
+    </div>
+    <details>
+      <summary>How it works</summary>
+      <p>The tablet runs a web app connected to the walker's ROS software. It shows a face that blinks, moves its mouth while speaking, and can look neutral, happy, sad, concerned or surprised. Speech is spoken out loud through the walker's speaker, and the walker can listen through a microphone.</p>
+      <p><strong>Micro-prompting</strong> breaks everyday activities into small, clear steps, such as taking medication, a timed walk, or sitting down safely for a rest, with large text and a big NEXT button. The walker can also hold a short conversation using a large language model.</p>
+    </details>
+    <div class="controls"><button type="button" class="btn" data-role="next">Next <span aria-hidden="true">›</span></button></div>
+  </article>
+
+  <!-- ---------- Navigation ---------- -->
+  <article class="demo" data-demo="nav" aria-labelledby="nav-h">
+    <h3 id="nav-h"><span class="tag">Respond</span> Showing the way with light and touch</h3>
+    <svg class="anim" viewBox="0 0 320 250" role="img" aria-labelledby="nav-t nav-d">
+      <title id="nav-t">Guided route to the kitchen</title>
+      <desc id="nav-d">A floor plan with a saved route from the living room to the kitchen. As the walker reaches each corner, the handle on the turning side lights green and vibrates, and the voice says which way to turn.</desc>
+      <rect class="room" x="8" y="8" width="304" height="234" rx="10"/>
+      <path class="wall" d="M8 150 H120 M170 150 H312 M200 8 V100"/>
+      <text class="lbl small" x="60" y="200" text-anchor="middle">Living room</text>
+      <text class="lbl small" x="256" y="40" text-anchor="middle">Kitchen</text>
+      <text class="lbl small" x="80" y="40" text-anchor="middle">Hallway</text>
+      <path class="route-ghost" d="M60 226 V176 Q60 124 112 124 H232 Q256 124 256 100 V58"/>
+      <path class="route" data-role="route" d="M60 226 V176 Q60 124 112 124 H232 Q256 124 256 100 V58"/>
+      <circle class="goal" cx="256" cy="58" r="10"/>
+      <g data-role="walker" class="walker-top">
+        <rect x="-14" y="-12" width="28" height="22" rx="4" class="wbody"/>
+        <circle data-role="hl" class="hled" cx="-14" cy="12" r="6"/>
+        <circle data-role="hr" class="hled" cx="14" cy="12" r="6"/>
+        <path class="wnose" d="M0 -20 L6 -12 H-6 Z"/>
+      </g>
+    </svg>
+    <p class="status" aria-live="polite"><span class="pill" data-role="pill">Go straight</span> <span data-role="caption">Both handles green.</span></p>
+    <details>
+      <summary>How it works</summary>
+      <p>From the <em>Directions</em> menu you can walk a route once, such as to the kitchen or bedroom, and the walker records it with odometry. Later it guides you along the saved path.</p>
+      <p>Instructions are given three ways at once: the handle lights (both green for <q>Go straight</q>, only the left one for <q>Turn left</q>, only the right one for <q>Turn right</q>, amber for <q>Turn around</q>, red for <q>Stop, obstacle ahead</q>, blue when you have arrived), short spoken instructions, and the vibration motor in the handle on the side you should turn towards.</p>
+      <p>In <em>obstacles</em> mode the front laser works like a car parking sensor, and the blocked side of the walker lights up red.</p>
+    </details>
+    <div class="controls"><button type="button" class="btn" data-role="next">Next <span aria-hidden="true">›</span></button></div>
+  </article>
+
+  </div><!-- /demo-grid -->
+
+  <!-- ---------- Architecture ---------- -->
+  <article class="demo demo-wide" aria-labelledby="arch-h">
+    <h3 id="arch-h"><span class="tag">Think</span> Inside: Raspberry Pi and ROS</h3>
+    <div class="arch">
+      <div class="layer">
+        <h4>Tablet</h4>
+        <p>Web app (Angular): companion face, micro-prompts, directions, gait report, settings. Connects to ROS through a WebSocket (roslib).</p>
+      </div>
+      <div class="link" aria-hidden="true"><span></span></div>
+      <div class="layer layer-core">
+        <h4>Raspberry Pi running ROS</h4>
+        <p>Many small programs (“nodes”) that pass messages to each other:</p>
+        <ul class="chips">
+          <li>leg tracking &amp; gait</li><li>posture</li><li>odometry</li><li>navigation assist</li>
+          <li>behaviours &amp; demos</li><li>speech in / out</li><li>conversation</li><li>user profiles</li>
+        </ul>
+      </div>
+      <div class="link" aria-hidden="true"><span></span></div>
+      <div class="layer-row">
+        <div class="layer"><h4>I²C sensors</h4><p>IMU and handle force sensors, shared over MQTT.</p></div>
+        <div class="layer"><h4>USB sensors</h4><p>2D LiDARs (RPLIDAR) and camera.</p></div>
+        <div class="layer"><h4>ESP32-S3</h4><p>Serial link: lights, vibration, brakes, encoders.</p></div>
+      </div>
+    </div>
+    <p class="note">ROS, the Robot Operating System, is free software used by robot builders worldwide. It lets each feature be built and tested on its own and then connected together.</p>
+  </article>
+</section>
+
+<!-- ============================== PUBLICATIONS ============================== -->
+<section class="section" id="publications" aria-labelledby="pub-h">
+  <h2 id="pub-h">Publications</h2>
+  <p class="section-intro">Research papers about SAW, and the earlier AGoRA smart walker developed in Colombia. Links open the publisher's page via the DOI.</p>
+
+  <h3 class="pub-group">Under review</h3>
+  <ol class="pubs">
+    <li class="pub">
+      <span class="badge badge-review">Under review</span>
+      <p class="pub-title">Co-Creating a Socially Assistive Walker: Collaborating with Older Adults and Carers</p>
+      <p class="pub-authors">S. D. Sierra M., M. Múnera, M. Sarajchi, N. Harris, F. Niyi-Odumosu, N. Zook, C. A. Cifuentes</p>
+      <p class="pub-venue">Manuscript, Bristol Robotics Laboratory</p>
+    </li>
+    <li class="pub">
+      <span class="badge badge-review">Under review</span>
+      <p class="pub-title">A Full-Body IMU Dataset for Fall Detection Research</p>
+      <p class="pub-authors">S. D. Sierra M., I. Texcalpa, Y. Wang, B. Allen, P. Thirthahalli Venkatesh, Z. Steer, F. Niyi-Odumosu, M. Múnera, C. A. Cifuentes</p>
+      <p class="pub-venue">Data descriptor manuscript</p>
+    </li>
+    <li class="pub">
+      <span class="badge badge-review">Under review</span>
+      <p class="pub-title">VLM-Guided Geometric Grasping Across Fixed and Quadruped-Mounted Configurations for Assistive Object Retrieval in the Home</p>
+      <p class="pub-authors">Author list to be confirmed</p>
+      <p class="pub-venue">Conference manuscript</p>
+    </li>
+  </ol>
+
+  <h3 class="pub-group">SAW: socially assistive walker (UWE Bristol)</h3>
+  <ol class="pubs">
+    <li class="pub"><p class="pub-title">Reimagining Assistive Walkers: An Exploration of Challenges and Preferences in Older Adults</p><p class="pub-authors">V. A. Aruona, S. D. Sierra M., N. Harris, M. Múnera, C. A. Cifuentes</p><p class="pub-venue">IEEE International Conference on Rehabilitation Robotics (ICORR), 2025, pp. 1659–1664</p><a class="doi" href="https://doi.org/10.1109/ICORR66766.2025.11063188">doi:10.1109/ICORR66766.2025.11063188</a></li>
+    <li class="pub"><p class="pub-title">A Multimodal Feedback Interface for Assisted Navigation with a Smart Walker</p><p class="pub-authors">S. Facin, S. D. Sierra M., D. Withey, S. Orlandi, S. Mellone, M. Múnera, C. A. Cifuentes</p><p class="pub-venue">Biosystems &amp; Biorobotics (Springer), 2025, pp. 534–538</p><a class="doi" href="https://doi.org/10.1007/978-3-031-77588-8_105">doi:10.1007/978-3-031-77588-8_105</a></li>
+    <li class="pub"><p class="pub-title">Socially assistive walker for daily living assistance in older adults</p><p class="pub-authors">S. D. Sierra M., N. Harris, M. Múnera, C. A. Cifuentes</p><p class="pub-venue">Frontiers in Robotics and AI, vol. 11, 1401663, 2024 (open access)</p><a class="doi" href="https://doi.org/10.3389/frobt.2024.1401663">doi:10.3389/frobt.2024.1401663</a> <a class="doi" href="https://uwe-repository.worktribe.com/output/12831988">UWE repository</a></li>
+    <li class="pub"><p class="pub-title">Multimodal Haptic Interface for Walker-Assisted Navigation</p><p class="pub-authors">Y. Wang, S. D. Sierra M., N. Harris, M. Múnera, C. A. Cifuentes</p><p class="pub-venue">IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), 2024, pp. 141–146</p><a class="doi" href="https://doi.org/10.1109/IROS58592.2024.10801733">doi:10.1109/IROS58592.2024.10801733</a></li>
+    <li class="pub"><p class="pub-title">Towards Safer Mobility: Developing and Evaluating a Fall Detection System for a Smart Walker</p><p class="pub-authors">M. S. Cavaglià, S. D. Sierra M., L. Palmerini, S. Orlandi, M. Múnera, C. A. Cifuentes</p><p class="pub-venue">IEEE RAS/EMBS International Conference for Biomedical Robotics and Biomechatronics (BioRob), 2024, pp. 1623–1628</p><a class="doi" href="https://doi.org/10.1109/BioRob60516.2024.10719869">doi:10.1109/BioRob60516.2024.10719869</a></li>
+  </ol>
+
+  <h3 class="pub-group">Earlier smart walker and gait research (AGoRA, Colombia)</h3>
+  <ol class="pubs">
+    <li class="pub"><p class="pub-title">Haptic Human-Robot Collaboration for Walker-Assisted Navigation Based on Admittance Controllers</p><p class="pub-authors">S. D. Sierra M., M. F. Jiménez, M. Múnera, C. A. Cifuentes, A. Frizera</p><p class="pub-venue">IEEE Robotics and Automation Letters, vol. 8, pp. 2622–2628, 2023</p><a class="doi" href="https://doi.org/10.1109/LRA.2023.3256924">doi:10.1109/LRA.2023.3256924</a></li>
+    <li class="pub"><p class="pub-title">Exploring Multimodal Gait Rehabilitation and Assistance through an Adaptable Robotic Platform</p><p class="pub-authors">S. Otálora, S. D. Sierra M., F. Ballén-Moreno, M. Múnera, C. A. Cifuentes</p><p class="pub-venue">IEEE International Conference on Robotics and Automation (ICRA), 2023, pp. 10449–10456</p><a class="doi" href="https://doi.org/10.1109/ICRA48891.2023.10160867">doi:10.1109/ICRA48891.2023.10160867</a></li>
+    <li class="pub"><p class="pub-title">Improving Health and Safety Promotion with a Robotic Tool</p><p class="pub-authors">S. D. Sierra M., M. Insuasty, D. E. García A., M. Múnera, C. A. Cifuentes</p><p class="pub-venue">Companion of the ACM/IEEE International Conference on Human-Robot Interaction (HRI), 2023, pp. 716–719</p><a class="doi" href="https://doi.org/10.1145/3568294.3580180">doi:10.1145/3568294.3580180</a></li>
+    <li class="pub"><p class="pub-title">Evaluation of Physical Interaction during Walker-Assisted Gait with the AGoRA Walker: Strategies Based on Virtual Mechanical Stiffness</p><p class="pub-authors">S. D. Sierra M., M. Múnera, T. Provot, M. Bourgain, C. A. Cifuentes</p><p class="pub-venue">Sensors, vol. 21, 3242, 2021</p><a class="doi" href="https://doi.org/10.3390/s21093242">doi:10.3390/s21093242</a></li>
+    <li class="pub"><p class="pub-title">Semi-Remote Gait Assistance Interface: A Joystick with Visual Feedback Capabilities for Therapists</p><p class="pub-authors">D. E. García A., S. D. Sierra M., D. Gómez-Vargas, M. F. Jiménez, M. Múnera, C. A. Cifuentes</p><p class="pub-venue">Sensors, vol. 21, 3521, 2021</p><a class="doi" href="https://doi.org/10.3390/s21103521">doi:10.3390/s21103521</a></li>
+    <li class="pub"><p class="pub-title">Online System for Gait Parameters Estimation Using a LRF Sensor for Assistive Devices</p><p class="pub-authors">A. Aguirre, S. D. Sierra M., M. Múnera, C. A. Cifuentes</p><p class="pub-venue">IEEE Sensors Journal, vol. 21, pp. 14272–14280, 2021</p><a class="doi" href="https://doi.org/10.1109/JSEN.2020.3028279">doi:10.1109/JSEN.2020.3028279</a></li>
+    <li class="pub"><p class="pub-title">Human–Robot–Environment Interaction Interface for Smart Walker Assisted Gait: AGoRA Walker</p><p class="pub-authors">S. D. Sierra M., M. Garzón, M. Múnera, C. A. Cifuentes</p><p class="pub-venue">Sensors, vol. 19, 2897, 2019</p><a class="doi" href="https://doi.org/10.3390/s19132897">doi:10.3390/s19132897</a></li>
+    <li class="pub"><p class="pub-title">A Novel Multimodal Cognitive Interaction for Walker-Assisted Rehabilitation Therapies</p><p class="pub-authors">W. M. Scheidegger, R. C. de Mello, S. D. Sierra M., M. F. Jiménez, M. C. Múnera, C. A. Cifuentes, A. Frizera-Neto</p><p class="pub-venue">IEEE International Conference on Rehabilitation Robotics (ICORR), 2019, pp. 905–910</p><a class="doi" href="https://doi.org/10.1109/ICORR.2019.8779469">doi:10.1109/ICORR.2019.8779469</a></li>
+    <li class="pub"><p class="pub-title">Remote-Operated Multimodal Interface for Therapists During Walker-Assisted Gait Rehabilitation: A Preliminary Assessment</p><p class="pub-authors">S. D. Sierra, M. F. Jiménez, M. C. Múnera, A. Frizera-Neto, C. A. Cifuentes</p><p class="pub-venue">ACM/IEEE International Conference on Human-Robot Interaction (HRI), 2019, pp. 528–529</p><a class="doi" href="https://doi.org/10.1109/HRI.2019.8673099">doi:10.1109/HRI.2019.8673099</a></li>
+    <li class="pub"><p class="pub-title">A Therapist Helping Hand for Walker-Assisted Gait Rehabilitation: A Pre-Clinical Assessment</p><p class="pub-authors">S. D. Sierra M., M. F. Jiménez, M. C. Múnera, T. Bastos, A. Frizera-Neto, C. A. Cifuentes</p><p class="pub-venue">IEEE Colombian Conference on Automatic Control (CCAC), 2019, pp. 1–6</p><a class="doi" href="https://doi.org/10.1109/CCAC.2019.8920943">doi:10.1109/CCAC.2019.8920943</a></li>
+    <li class="pub"><p class="pub-title">Development of an Interface for Human-Robot Interaction on a Robotic Platform for Gait Assistance: AGoRA Smart Walker</p><p class="pub-authors">S. D. Sierra, J. F. Molina, D. A. Gómez, M. C. Múnera, C. A. Cifuentes</p><p class="pub-venue">IEEE ANDESCON, 2018, pp. 1–7</p><a class="doi" href="https://doi.org/10.1109/ANDESCON.2018.8564594">doi:10.1109/ANDESCON.2018.8564594</a></li>
+  </ol>
+
+  <h3 class="pub-group">Book chapters</h3>
+  <ol class="pubs">
+    <li class="pub"><p class="pub-title">Control Strategies for Human–Robot–Environment Interaction in Assisted Gait with Smart Walkers</p><p class="pub-authors">S. D. Sierra M., M. F. Jiménez, A. Frizera-Neto, M. Múnera, C. A. Cifuentes</p><p class="pub-venue">In <em>Interfacing Humans and Robots for Gait Assistance and Rehabilitation</em>, Springer, 2021, pp. 259–286</p><a class="doi" href="https://doi.org/10.1007/978-3-030-79630-3_10">doi:10.1007/978-3-030-79630-3_10</a></li>
+    <li class="pub"><p class="pub-title">Fundamentals for the Design of Smart Walkers</p><p class="pub-authors">J. Aristizabal-Aristizabal, R. Ferro-Rugeles, M. Lancheros-Vega, S. D. Sierra M., M. Múnera, C. A. Cifuentes</p><p class="pub-venue">In <em>Interfacing Humans and Robots for Gait Assistance and Rehabilitation</em>, Springer, 2021, pp. 121–141</p><a class="doi" href="https://doi.org/10.1007/978-3-030-79630-3_4">doi:10.1007/978-3-030-79630-3_4</a></li>
+    <li class="pub"><p class="pub-title">Sensing Methodologies for Gait Parameters Estimation and Control</p><p class="pub-authors">M. J. Pinto-Bernal, S. D. Sierra M., M. Múnera, C. A. Cifuentes</p><p class="pub-venue">In <em>Interfacing Humans and Robots for Gait Assistance and Rehabilitation</em>, Springer, 2021, pp. 143–168</p><a class="doi" href="https://doi.org/10.1007/978-3-030-79630-3_5">doi:10.1007/978-3-030-79630-3_5</a></li>
+    <li class="pub"><p class="pub-title">Kinematics, Actuation, and Sensing Architectures for Rehabilitation and Assistive Robotics</p><p class="pub-authors">S. D. Sierra M., L. Arciniegas-Mayag, O. Ramos, J. Maldonado, M. Múnera, C. A. Cifuentes</p><p class="pub-venue">In <em>Interfacing Humans and Robots for Gait Assistance and Rehabilitation</em>, Springer, 2021, pp. 43–92</p><a class="doi" href="https://doi.org/10.1007/978-3-030-79630-3_2">doi:10.1007/978-3-030-79630-3_2</a></li>
+    <li class="pub"><p class="pub-title">Adaptable Robotic Platform for Gait Rehabilitation and Assistance: Design Concepts and Applications</p><p class="pub-authors">S. Sierra, L. Arciniegas, F. Ballén-Moreno, D. Gómez-Vargas, M. Múnera, C. A. Cifuentes</p><p class="pub-venue">In <em>Exoskeleton Robots for Rehabilitation and Healthcare Devices</em>, SpringerBriefs in Applied Sciences and Technology, 2020, pp. 67–93</p><a class="doi" href="https://doi.org/10.1007/978-981-15-4732-4_5">doi:10.1007/978-981-15-4732-4_5</a></li>
+  </ol>
+  <p class="note">Full list: <a href="https://orcid.org/0000-0001-5714-1478">ORCID 0000-0001-5714-1478</a>.</p>
+</section>
+
+<!-- ============================== THESIS ============================== -->
+<section class="section" id="thesis" aria-labelledby="thesis-h">
+  <h2 id="thesis-h">PhD Thesis</h2>
+  <div class="card thesis">
+    <span class="badge badge-review">Coming soon</span>
+    <p class="pub-title">Title to be announced</p>
+    <p class="pub-authors">Sergio D. Sierra Marín</p>
+    <p class="pub-venue">PhD thesis, FARSCOPE Centre for Doctoral Training, Bristol Robotics Laboratory (University of Bristol and UWE Bristol)</p>
+    <p class="note">A link to the thesis will be added here once it is available.</p>
+  </div>
+</section>
+
+<!-- ============================== TEAM ============================== -->
+<section class="section" id="team" aria-labelledby="team-h">
+  <h2 id="team-h">Team and thanks</h2>
+  <div class="team">
+    <div class="card">
+      <h3>Sergio D. Sierra Marín</h3>
+      <p>PhD researcher, Bristol Robotics Laboratory. Designed and built SAW's software, sensing and interaction. Previously developed the AGoRA smart walker in Colombia.</p>
+    </div>
+    <div class="card">
+      <h3>Supervision and collaborators</h3>
+      <p>Prof. Carlos A. Cifuentes, Dr Marcela Múnera, Prof. Nigel Harris and colleagues at Bristol Robotics Laboratory and UWE Bristol, plus the co-authors listed above.</p>
+    </div>
+    <div class="card">
+      <h3>Thank you</h3>
+      <p>To the older adults, carers and care professionals who tested the walker and helped shape it. To the Bristol Robotics Laboratory, a collaboration between UWE Bristol and the University of Bristol, and to the FARSCOPE Centre for Doctoral Training.</p>
+    </div>
+  </div>
+  <p class="contact">
+    <a class="cta" href="https://github.com/saw-walker">Project on GitHub <span aria-hidden="true">↗</span></a>
+  </p>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>SAW Smart Walker · Bristol Robotics Laboratory · University of the West of England, Bristol</p>
+  <p><a href="#top">Back to top ↑</a></p>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
