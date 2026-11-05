@@ -85,9 +85,6 @@ To preview locally, open `index.html` in a browser, or run `python3 -m http.serv
     manuscript is titled "Co-Design and Usability Evaluation of a Socially Assistive Walker for Older Adults and
     Care Professionals"; confirm which title is final).
   - "A Full-Body IMU Dataset for Fall Detection Research" (data descriptor).
-  - "VLM-Guided Geometric Grasping Across Fixed and Quadruped-Mounted Configurations for Assistive Object
-    Retrieval in the Home": the local manuscript is anonymised, so confirm the author list (and whether it
-    belongs on this site).
 - [ ] **Hardware photo:** `saw-hardware.jpg` comes from a figure in the under-review co-design paper.
       Confirm it is fine to show publicly before publication, or swap in another photo.
 - [ ] **Team section:** confirm names, titles and roles of supervisors and collaborators, and add funders' wording
