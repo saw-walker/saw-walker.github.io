@@ -153,9 +153,10 @@ function heroScene({ scene, camera, canvas, colors }) {
   // Lights: the U-shaped bar between the handles lights up (the handlebars themselves only vibrate)
   const lightMat = new THREE.MeshBasicMaterial({ color: colors.blue });
   const uCurve = new THREE.CatmullRomCurve3([
-    // ends clamp where the top rails bend into the handles; the bar dips and bows forward, away from the user
-    V(-0.28, 0.88, -0.14), V(-0.26, 0.83, -0.1), V(-0.17, 0.79, -0.04), V(0, 0.78, -0.02),
-    V(0.17, 0.79, -0.04), V(0.26, 0.83, -0.1), V(0.28, 0.88, -0.14)]);
+    // an upright U across the back of the frame: its ends rise into the handle bends,
+    // the middle runs straight across below them
+    V(-0.28, 0.88, -0.15), V(-0.275, 0.8, -0.155), V(-0.24, 0.74, -0.16), V(-0.12, 0.72, -0.16), V(0, 0.72, -0.16),
+    V(0.12, 0.72, -0.16), V(0.24, 0.74, -0.16), V(0.275, 0.8, -0.155), V(0.28, 0.88, -0.15)]);
   const lightBar = new THREE.Mesh(new THREE.TubeGeometry(uCurve, 48, 0.016, 10, false), lightMat);
   walker.add(lightBar);
 
@@ -182,11 +183,11 @@ function heroScene({ scene, camera, canvas, colors }) {
 
   // Camera on the light bar at hip height, looking up at the user's shoulders (user side is -z),
   // with the speaker just below it
-  const camPos = V(0.14, 0.815, -0.06);
+  const camPos = V(0.1, 0.765, -0.17);
   const camBody = add(inked(new THREE.BoxGeometry(0.07, 0.05, 0.04), colors));
   camBody.position.copy(camPos);
   const speaker = add(inked(new THREE.BoxGeometry(0.1, 0.05, 0.05), colors));
-  speaker.position.set(0.14, 0.74, -0.05);
+  speaker.position.set(0.1, 0.675, -0.15);
   const lensMat = new THREE.MeshBasicMaterial({ color: colors.blue });
   const lens = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.02, 16), lensMat);
   lens.rotation.x = Math.PI / 2;
