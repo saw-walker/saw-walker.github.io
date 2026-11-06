@@ -45,7 +45,19 @@
     if (!slot) return;
     var yt = (cfg.youtubeId || '').trim();
     var mp4 = (cfg.mp4 || '').trim();
-    if (yt && /^[\w-]{6,20}$/.test(yt)) {
+    var vimeo = String(cfg.vimeoId || '').trim();
+    var vimeoHash = String(cfg.vimeoHash || '').trim();
+    if (/^\d{5,12}$/.test(vimeo)) {
+      var vf = document.createElement('iframe');
+      vf.src = 'https://player.vimeo.com/video/' + vimeo + '?' +
+        (/^[0-9a-f]{6,20}$/i.test(vimeoHash) ? 'h=' + vimeoHash + '&' : '') + 'dnt=1&title=0&byline=0&portrait=0';
+      vf.title = 'SAW Smart Walker video';
+      vf.allow = 'autoplay; fullscreen; picture-in-picture';
+      vf.allowFullscreen = true;
+      vf.loading = 'lazy';
+      slot.innerHTML = '';
+      slot.appendChild(vf);
+    } else if (yt && /^[\w-]{6,20}$/.test(yt)) {
       // Click-to-load keeps the page light and avoids contacting YouTube until asked.
       slot.innerHTML = '';
       var b = document.createElement('button');

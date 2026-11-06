@@ -13,12 +13,16 @@
   <meta property="og:image" content="assets/img/logo.png">
   <link rel="icon" type="image/png" href="assets/img/icon-180.png">
   <link rel="apple-touch-icon" href="assets/img/icon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600&family=Saira+Condensed:wght@300;500;600;700&display=swap">
   <link rel="stylesheet" href="assets/css/style.css">
 
   <!--
   ===================================================================
    PROJECT VIDEO: set ONE of these and the "coming soon" poster is
    replaced automatically. Leave both empty to keep the poster.
+     vimeoId / vimeoHash: from a Vimeo link vimeo.com/<id>/<hash> (unlisted videos need the hash)
      youtubeId: the part after "v=" in a YouTube link, e.g. "dQw4w9WgXcQ"
      mp4:       a path or URL to an .mp4 file, e.g. "assets/video/saw.mp4"
      poster:    optional image shown before an mp4 plays
@@ -27,6 +31,8 @@
   <script>
     window.SAW_CONFIG = {
       video: {
+        vimeoId: "1224973038",
+        vimeoHash: "49081d4131",
         youtubeId: "",
         mp4: "",
         poster: ""
@@ -42,6 +48,11 @@
     <span class="brand-tile"><img src="assets/img/icon-180.png" alt="" width="36" height="36"></span>
     <span class="brand-name">SAW Smart Walker</span>
   </a>
+  <nav class="top-links" aria-label="Main">
+    <a href="#how">How it works</a>
+    <a href="#team">Team</a>
+    <a class="btn-solid" href="#publications">Read the papers</a>
+  </nav>
   <div class="tools">
     <button type="button" class="tool" id="textSize" aria-pressed="false" title="Make the text bigger">
       <span aria-hidden="true">A<span class="plus">+</span></span><span class="sr">Larger text</span>
@@ -64,9 +75,14 @@
 
 <!-- ============================== HERO ============================== -->
 <section class="hero" id="top">
-  <div class="hero-logo">
-    <img src="assets/img/logo.png" alt="SAW Smart Walker logo: the letters SW and a walker, under the BRL badge" width="480" height="480">
-  </div>
+  <nav class="hero-side" aria-label="On this page">
+    <a href="#video">The walker on video</a>
+    <a href="#how">Sensing and feedback</a>
+    <a href="#how">Virtual companion</a>
+    <a href="#publications">Research papers</a>
+    <a href="#thesis">PhD thesis</a>
+    <a href="#team">Team and thanks</a>
+  </nav>
   <div class="hero-text">
     <p class="eyebrow">Bristol Robotics Laboratory · UWE Bristol</p>
     <h1>Meet SAW, the Socially Assistive Walker</h1>
@@ -78,6 +94,87 @@
       Older adults and carers helped design it, so that people can keep walking safely and independently at home.
     </p>
     <a class="cta" href="#how">See how it works <span aria-hidden="true">↓</span></a>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <!-- line-art walker sending out sensing signals -->
+    <svg viewBox="0 0 360 340">
+      <g class="bolt bolt-a"><path d="M118 112 l-46 -26 l14 0 l-38 -22 l56 22 l-14 2 l46 18z"/></g>
+      <g class="bolt bolt-b"><path d="M110 150 l-58 -4 l12 -8 l-50 -6 l60 2 l-10 8 l50 4z"/></g>
+      <!-- tablet with face -->
+      <rect class="ink" x="176" y="34" width="70" height="50" rx="6"/>
+      <circle class="ink-fill" cx="200" cy="56" r="4"/><circle class="ink-fill" cx="222" cy="56" r="4"/>
+      <path class="ink" d="M200 68 q11 9 22 0"/>
+      <path class="ink" d="M211 84 L214 120"/>
+      <!-- frame -->
+      <path class="ink" d="M150 120 L292 112"/>
+      <path class="ink" d="M150 120 L134 290"/>
+      <path class="ink" d="M286 112 L300 290"/>
+      <path class="ink" d="M142 200 L294 196"/>
+      <path class="ink" d="M150 120 C150 104 166 100 176 104"/>
+      <path class="ink" d="M286 112 C292 98 306 96 314 104"/>
+      <!-- seat with hatching -->
+      <path class="ink" d="M160 186 L280 182 L278 196 L160 200 Z"/>
+      <g class="hatch"><path d="M172 190 l-6 8"/><path d="M188 189 l-6 9"/><path d="M204 189 l-6 9"/><path d="M220 188 l-6 9"/><path d="M236 188 l-6 9"/><path d="M252 187 l-6 9"/><path d="M268 186 l-6 9"/></g>
+      <!-- handle lights -->
+      <rect class="bolt" x="168" y="96" width="10" height="10" rx="2"/>
+      <rect class="bolt" x="300" y="92" width="10" height="10" rx="2"/>
+      <!-- lidar near the floor -->
+      <rect class="ink" x="196" y="240" width="40" height="16" rx="3"/>
+      <path class="ink-thin" d="M216 240 v-14"/>
+      <path class="ink" d="M140 240 L294 236"/>
+      <!-- wheels -->
+      <circle class="ink" cx="134" cy="302" r="14"/><circle class="ink-fill" cx="134" cy="302" r="3"/>
+      <circle class="ink" cx="300" cy="302" r="14"/><circle class="ink-fill" cx="300" cy="302" r="3"/>
+      <path class="ink-thin" d="M90 318 L350 318"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ============================== BAND ============================== -->
+<section class="band" aria-labelledby="band-h">
+  <div class="band-art" aria-hidden="true">
+    <!-- laser returns drawn as bars, with two walking legs line art -->
+    <svg viewBox="0 0 560 240">
+      <g>
+        <rect class="bar" x="10" y="80" width="12" height="80" rx="6" style="animation-delay:-.2s"/>
+        <rect class="bar" x="34" y="60" width="12" height="120" rx="6" style="animation-delay:-.9s"/>
+        <rect class="bar" x="58" y="96" width="12" height="48" rx="6" style="animation-delay:-.5s"/>
+        <rect class="bar" x="82" y="40" width="12" height="160" rx="6" style="animation-delay:-1.3s"/>
+        <rect class="bar" x="106" y="70" width="12" height="100" rx="6" style="animation-delay:-.3s"/>
+        <rect class="bar" x="130" y="100" width="12" height="40" rx="6" style="animation-delay:-1.1s"/>
+        <rect class="bar" x="154" y="50" width="12" height="140" rx="6" style="animation-delay:-.7s"/>
+        <rect class="bar" x="178" y="86" width="12" height="68" rx="6" style="animation-delay:-1.6s"/>
+        <rect class="bar" x="370" y="74" width="12" height="92" rx="6" style="animation-delay:-.4s"/>
+        <rect class="bar" x="394" y="44" width="12" height="152" rx="6" style="animation-delay:-1.2s"/>
+        <rect class="bar" x="418" y="92" width="12" height="56" rx="6" style="animation-delay:-.8s"/>
+        <rect class="bar" x="442" y="58" width="12" height="124" rx="6" style="animation-delay:-.1s"/>
+        <rect class="bar" x="466" y="100" width="12" height="40" rx="6" style="animation-delay:-1.4s"/>
+        <rect class="bar" x="490" y="66" width="12" height="108" rx="6" style="animation-delay:-.6s"/>
+        <rect class="bar" x="514" y="88" width="12" height="64" rx="6" style="animation-delay:-1s"/>
+        <rect class="bar" x="538" y="76" width="12" height="88" rx="6" style="animation-delay:-.35s"/>
+      </g>
+      <!-- legs walking -->
+      <g>
+        <path class="ink" d="M262 10 C258 60 252 100 246 150 L238 214 L210 222"/>
+        <path class="ink" d="M286 10 C292 60 306 100 316 150 L326 210 L300 220"/>
+        <path class="ink-thin" d="M250 10 L298 10"/>
+        <g class="hatch"><path d="M256 40 l8 -6"/><path d="M254 60 l9 -6"/><path d="M252 80 l9 -6"/><path d="M296 40 l8 -6"/><path d="M299 60 l9 -6"/><path d="M303 80 l9 -6"/></g>
+        <circle class="bolt" cx="244" cy="160" r="6"/><circle class="bolt" cx="318" cy="160" r="6"/>
+        <path class="ink-thin" d="M160 232 L420 232"/>
+      </g>
+    </svg>
+  </div>
+  <div class="band-text">
+    <h2 id="band-h">Research that walks alongside older adults</h2>
+    <p>
+      A laser near the floor watches your steps, sensors in the handles feel your balance and a friendly screen talks you through the day.
+      The walker turns that into gentle light, touch and voice feedback, designed together with older adults and carers.
+    </p>
+    <div class="stats">
+      <div><span class="stat-n">21</span><span class="stat-l">peer-reviewed papers</span></div>
+      <div><span class="stat-n">7</span><span class="stat-l">interactive explainers</span></div>
+      <div><span class="stat-n">2</span><span class="stat-l">countries: UK and Colombia</span></div>
+    </div>
   </div>
 </section>
 
@@ -109,6 +206,13 @@
       </svg>
       <p class="poster-label">Video coming soon</p>
     </div>
+  </div>
+  <h3 class="video-sub">Co-design and usability study</h3>
+  <p class="section-intro">Video accompanying the paper <em>Co-Design and Usability Evaluation of a Socially Assistive Walker for Older Adults and Care Professionals</em> (under review).
+    <a href="https://doi.org/10.6084/m9.figshare.32724324">doi:10.6084/m9.figshare.32724324</a> · CC BY 4.0</p>
+  <div class="video-slot figshare">
+    <iframe src="https://widgets.figshare.com/articles/32724324/embed?show_title=1" title="Co-design and usability study video (figshare)"
+            loading="lazy" allowfullscreen></iframe>
   </div>
 </section>
 
@@ -495,9 +599,10 @@
   <ol class="pubs">
     <li class="pub">
       <span class="badge badge-review">Under review</span>
-      <p class="pub-title">Co-Creating a Socially Assistive Walker: Collaborating with Older Adults and Carers</p>
+      <p class="pub-title">Co-Design and Usability Evaluation of a Socially Assistive Walker for Older Adults and Care Professionals</p>
       <p class="pub-authors">S. D. Sierra M., M. Múnera, M. Sarajchi, N. Harris, F. Niyi-Odumosu, N. Zook, C. A. Cifuentes</p>
       <p class="pub-venue">Manuscript, Bristol Robotics Laboratory</p>
+      <a class="doi" href="https://doi.org/10.6084/m9.figshare.32724324">Video: doi:10.6084/m9.figshare.32724324</a>
     </li>
     <li class="pub">
       <span class="badge badge-review">Under review</span>

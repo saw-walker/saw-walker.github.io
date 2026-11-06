@@ -18,8 +18,8 @@ assets/img/saw-hardware.jpg  Labelled walker photo (from the co-design paper's f
 .nojekyll               Tells GitHub Pages to serve files as they are
 ```
 
-Everything is plain HTML/CSS/JS with no external scripts, fonts or CDNs, and nothing is downloaded from
-third parties unless a visitor presses play on a YouTube video.
+Everything is plain HTML/CSS/JS with no external scripts. Fonts (Saira Condensed, Dosis) come from Google Fonts;
+the project video is embedded from Vimeo (with `dnt=1`) and the study video from figshare.
 
 ### Accessibility
 
@@ -50,23 +50,15 @@ The gait numbers in the leg-tracking demo are illustrative, and the page says so
 
 ## Setting the project video
 
-At the top of `index.html` there is a single block:
+At the top of `index.html` there is a single block, `window.SAW_CONFIG.video`. The first one set wins:
 
-```html
-<script>
-  window.SAW_CONFIG = { video: { youtubeId: "", mp4: "", poster: "" } };
-</script>
-```
+- **Vimeo (current):** `vimeoId` and, for unlisted videos, `vimeoHash` from `vimeo.com/<id>/<hash>`.
+  Now set to `1224973038` / `49081d4131`.
+- **YouTube:** `youtubeId` (the part after `v=`); loads the `youtube-nocookie.com` player on press.
+- **MP4:** a path or URL in `mp4` (and optionally `poster`). Keep large videos out of this repo.
 
-- **YouTube:** put the video ID (the part after `v=`) in `youtubeId`. The page shows a play button and only
-  loads the privacy-enhanced `youtube-nocookie.com` player when pressed.
-- **MP4:** put a path or URL in `mp4` (and optionally a `poster` image). Avoid committing large videos to this
-  repo (GitHub Pages sites should stay small). Prefer YouTube or an external host.
-
-Leave both empty to keep the "Video coming soon" poster.
-
-Candidate local footage (not copied here) in `~/OneDrive - UWE Bristol/video/`:
-`Structure2.mp4`, `handle.mp4`, `Haptic3.mp4`.
+The co-design study video is embedded separately from figshare
+(doi:10.6084/m9.figshare.32724324, CC BY 4.0).
 
 ## Publishing on GitHub Pages
 
@@ -77,13 +69,11 @@ To preview locally, open `index.html` in a browser, or run `python3 -m http.serv
 
 ## TODO
 
-- [ ] **Video:** upload the project video (YouTube recommended) and set `youtubeId` in `index.html`.
 - [ ] **PhD thesis:** add the final title and a link (repository or DOI) in the `#thesis` section.
 - [ ] **Under-review papers:** when published, add venue, year and DOI. PDFs are deliberately *not* included
       (possible embargo):
-  - "Co-Creating a Socially Assistive Walker: Collaborating with Older Adults and Carers" (the revised
-    manuscript is titled "Co-Design and Usability Evaluation of a Socially Assistive Walker for Older Adults and
-    Care Professionals"; confirm which title is final).
+  - "Co-Design and Usability Evaluation of a Socially Assistive Walker for Older Adults and Care Professionals"
+    (video: doi:10.6084/m9.figshare.32724324).
   - "A Full-Body IMU Dataset for Fall Detection Research" (data descriptor).
 - [ ] **Hardware photo:** `saw-hardware.jpg` comes from a figure in the under-review co-design paper.
       Confirm it is fine to show publicly before publication, or swap in another photo.
