@@ -1,10 +1,10 @@
-# saw-walker
+# saw-walker.github.io
 
 Public website for the **SAW (Socially Assistive Walker)** PhD project by Sergio D. Sierra Marín
 (Bristol Robotics Laboratory, UWE Bristol). Visitors reach it by scanning a QR code at a museum,
 so it is built mobile-first, loads fast and needs no build step.
 
-Live URL: https://sergiosierram.github.io/saw-walker/
+Live URL: https://saw-walker.github.io/
 
 ## Structure
 
@@ -63,8 +63,8 @@ The co-design study video is embedded separately from figshare
 
 ## Publishing on GitHub Pages
 
-Published from `main` (root) of https://github.com/sergiosierram/saw-walker. Every push to `main`
-redeploys https://sergiosierram.github.io/saw-walker/, which is the URL in the museum kiosk QR code.
+Published from `main` (root) of https://github.com/saw-walker/saw-walker.github.io. Every push to `main`
+redeploys https://saw-walker.github.io/, which is the URL in the museum kiosk QR code.
 
 To preview locally, open `index.html` in a browser, or run `python3 -m http.server` in this folder.
 
@@ -80,5 +80,4 @@ To preview locally, open `index.html` in a browser, or run `python3 -m http.serv
       Confirm it is fine to show publicly before publication, or swap in another photo.
 - [ ] **Team section:** confirm names, titles and roles of supervisors and collaborators, and add funders' wording
       if wanted (the co-design manuscript acknowledges UKRI MRC grant MR/Y010620/1, EPSRC and FARSCOPE CDT).
-- [ ] **GitHub org:** make sure https://github.com/saw-walker exists and is public (the page links to it).
 - [ ] Optional: add a social preview image (1200×630) and a QR code image for print material.
