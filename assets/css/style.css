@@ -150,6 +150,15 @@ main { max-width: 1240px; overflow-x: clip; margin: 0 auto; padding: 0; border-l
   .band-text { padding: 56px 48px; align-self: center; }
 }
 
+/* three.js scenes (replace the SVG drawings when WebGL is available) */
+.has-3d > svg { display: none; }
+.has-3d { position: relative; }
+.scene3d { position: absolute; inset: 0; display: block; width: 100%; height: 100%; cursor: grab; }
+.scene3d:active { cursor: grabbing; }
+.hero-art.has-3d { padding: 0; min-height: 360px; align-self: stretch; }
+.band-art.has-3d { padding: 0; min-height: 300px; align-self: stretch; }
+.band-art.has-3d .scene3d { cursor: default; }
+
 /* line-art illustration */
 .ink { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 .ink-fill { fill: var(--ink); }

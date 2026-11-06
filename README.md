@@ -18,7 +18,8 @@ assets/img/saw-hardware.jpg  Labelled walker photo (from the co-design paper's f
 .nojekyll               Tells GitHub Pages to serve files as they are
 ```
 
-Everything is plain HTML/CSS/JS with no external scripts. Fonts (Saira Condensed, Dosis) come from Google Fonts;
+Everything is plain HTML/CSS/JS. The hero walker and the laser-scan band are three.js scenes
+(`assets/js/scenes.js`, three@0.160.0 from jsDelivr); without WebGL the inline SVG drawings show instead. Fonts (Saira Condensed, Dosis) come from Google Fonts;
 the project video is embedded from Vimeo (with `dnt=1`) and the study video from figshare.
 
 ### Accessibility
