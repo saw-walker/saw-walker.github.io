@@ -129,16 +129,16 @@ function heroScene({ scene, camera, canvas, colors }) {
     add(tube(V(x, 0.88, -0.14), V(x, 0.9, -0.3), 0.011, colors));   // handle
     add(tube(V(x, 0.42, 0.18), V(x, 0.44, -0.2), 0.008, colors));   // seat rail
   }
-  add(tube(V(-0.28, 0.6, 0.15), V(0.28, 0.6, 0.15), 0.008, colors)); // front cross bar
   add(tube(V(-0.28, 0.2, 0.2), V(0.28, 0.2, 0.2), 0.008, colors));   // low bar with the laser
 
   const seat = add(inked(new THREE.BoxGeometry(0.5, 0.03, 0.36), colors));
   seat.position.set(0, 0.45, -0.01);
 
-  // Tablet with face on a pole
-  add(tube(V(0, 0.6, 0.15), V(0, 1.02, 0.08), 0.008, colors));
+  // Tablet with face on an adjustable holder clamped to the right top rail
+  add(tube(V(0.28, 0.87, 0.0), V(0.2, 0.96, 0.03), 0.008, colors));
+  add(tube(V(0.2, 0.96, 0.03), V(0.1, 1.0, 0.06), 0.008, colors));
   const tablet = add(inked(new THREE.BoxGeometry(0.3, 0.2, 0.02), colors));
-  tablet.position.set(0, 1.1, 0.07);
+  tablet.position.set(0.1, 1.08, 0.07);
   // Screen is on the user side (-z); lean its top away from the user so it faces up towards their eyes.
   tablet.rotation.x = 0.3;
   const faceMat = new THREE.MeshBasicMaterial({ map: faceTexture(colors, false) });
@@ -147,16 +147,13 @@ function heroScene({ scene, camera, canvas, colors }) {
   face.rotation.y = Math.PI;
   tablet.add(face);
 
-  // LED strips on the front legs (the handles only vibrate)
+  // Lights: a U-shaped light bar across the front of the frame (the handlebars only vibrate)
   const lightMat = new THREE.MeshBasicMaterial({ color: colors.blue });
-  const lights = [-1, 1].map((s) => {
-    const m = new THREE.Mesh(new THREE.BoxGeometry(0.026, 0.3, 0.026), lightMat);
-    // front leg runs from (x, 0.08, 0.22) to (x, 0.86, 0.12); sit on it, slightly outside
-    m.position.set(0.28 * s + 0.014 * s, 0.62, 0.151);
-    m.rotation.x = Math.atan2(0.1, 0.78);
-    walker.add(m);
-    return m;
-  });
+  const uCurve = new THREE.CatmullRomCurve3([
+    V(-0.27, 0.62, 0.02), V(-0.26, 0.6, 0.12), V(-0.18, 0.59, 0.17), V(0, 0.59, 0.18),
+    V(0.18, 0.59, 0.17), V(0.26, 0.6, 0.12), V(0.27, 0.62, 0.02)]);
+  const lightBar = new THREE.Mesh(new THREE.TubeGeometry(uCurve, 48, 0.016, 10, false), lightMat);
+  walker.add(lightBar);
 
   // Wheels
   for (const s of [-1, 1]) for (const z of [0.22, -0.24]) {
@@ -179,48 +176,50 @@ function heroScene({ scene, camera, canvas, colors }) {
   fan.position.set(0, 0.24, 0.2);
   walker.add(fan);
 
-  // Posture camera on the front cross bar, looking up at the user's shoulders (user side is -z)
-  const camPos = V(0, 0.63, 0.13);
-  const camBody = add(inked(new THREE.BoxGeometry(0.09, 0.05, 0.05), colors));
+  // 2D camera and microphone on top of the tablet, looking back at the user's upper body (user side is -z)
+  const camPos = V(0.1, 1.2, 0.09);
+  const camBody = add(inked(new THREE.BoxGeometry(0.07, 0.035, 0.035), colors));
   camBody.position.copy(camPos);
+  const mic = add(inked(new THREE.SphereGeometry(0.014, 10, 8), colors));
+  mic.position.set(0.17, 1.2, 0.09);
   const lensMat = new THREE.MeshBasicMaterial({ color: colors.blue });
   const lens = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.02, 16), lensMat);
   lens.rotation.x = Math.PI / 2;
-  lens.position.set(0, 0, -0.03);
+  lens.position.set(0, 0, -0.022);
   camBody.add(lens);
 
   // Shoulder landmarks floating where a user would stand, with the shoulder line between them
   const shoulders = new THREE.Group();
-  shoulders.position.set(0, 1.2, -0.5);
+  shoulders.position.set(0, 1.28, -0.62);
   walker.add(shoulders);
   const lmMat = new THREE.MeshBasicMaterial({ color: colors.blue });
   const lmL = new THREE.Mesh(new THREE.SphereGeometry(0.022, 12, 8), lmMat);
   const lmR = lmL.clone();
-  lmL.position.x = -0.15; lmR.position.x = 0.15;
+  lmL.position.x = -0.17; lmR.position.x = 0.17;
   const sLineMat = new THREE.LineBasicMaterial({ color: colors.blue });
-  const sLine = new THREE.Line(new THREE.BufferGeometry().setFromPoints([V(-0.15, 0, 0), V(0.15, 0, 0)]), sLineMat);
+  const sLine = new THREE.Line(new THREE.BufferGeometry().setFromPoints([V(-0.17, 0, 0), V(0.17, 0, 0)]), sLineMat);
   const headMat = new THREE.LineBasicMaterial({ color: colors.blue, transparent: true, opacity: 0.6 });
   const head = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(
     Array.from({ length: 32 }, (_, i) => { const a = (i / 32) * Math.PI * 2; return V(Math.cos(a) * 0.07, 0.15 + Math.sin(a) * 0.085, 0); })), headMat);
   shoulders.add(lmL, lmR, sLine, head);
 
   // View frustum: a four-sided pyramid from the lens to the shoulders
-  const camTarget = V(0, 1.22, -0.5);
+  const camTarget = V(0, 1.2, -0.62);
   const camDir = new THREE.Vector3().subVectors(camTarget, camPos);
   const camLen = camDir.length();
-  const frustGeo = new THREE.ConeGeometry(0.24, camLen, 4, 1, true);
+  const frustGeo = new THREE.ConeGeometry(0.34, camLen, 4, 1, true);
   frustGeo.rotateY(Math.PI / 4);
   frustGeo.translate(0, -camLen / 2, 0);
   const frustMat = new THREE.MeshBasicMaterial({ color: colors.blue, transparent: true, opacity: 0.12, side: THREE.DoubleSide, depthWrite: false });
   const frustEdgeMat = new THREE.LineBasicMaterial({ color: colors.blue, transparent: true, opacity: 0.55 });
   const frustum = new THREE.Group();
   frustum.add(new THREE.Mesh(frustGeo, frustMat), new THREE.LineSegments(new THREE.EdgesGeometry(frustGeo), frustEdgeMat));
-  frustum.position.copy(camPos).add(V(0, 0, -0.03));
+  frustum.position.copy(camPos).add(V(0, 0, -0.025));
   frustum.quaternion.setFromUnitVectors(V(0, -1, 0), camDir.clone().normalize());
   walker.add(frustum);
   // A detection square that slides up the frustum, like a frame being analysed
   const scanSq = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(
-    [V(-1, 0, -1), V(1, 0, -1), V(1, 0, 1), V(-1, 0, 1)].map((p) => p.multiplyScalar(0.24 / Math.SQRT2))), frustEdgeMat);
+    [V(-1, 0, -1), V(1, 0, -1), V(1, 0, 1), V(-1, 0, 1)].map((p) => p.multiplyScalar(0.34 / Math.SQRT2))), frustEdgeMat);
   frustum.add(scanSq);
 
   // Scan dots on the floor around the walker
@@ -242,8 +241,8 @@ function heroScene({ scene, camera, canvas, colors }) {
   floor.rotation.x = -Math.PI / 2;
   scene.add(floor);
 
-  camera.position.set(2.7, 1.75, 3.1);
-  camera.lookAt(0, 0.62, 0);
+  camera.position.set(3.3, 2.1, 3.8);
+  camera.lookAt(0, 0.72, -0.05);
 
   // Drag to rotate
   // start with the face screen (user side, -z) turned towards the camera
@@ -264,7 +263,7 @@ function heroScene({ scene, camera, canvas, colors }) {
       floor.rotation.z = 0;
       fan.rotation.z = t * 5.5;
       const glow = 0.55 + 0.45 * Math.sin(t * 3);
-      lights.forEach((l) => { const k = 0.85 + 0.45 * glow; l.scale.x = k; l.scale.z = k; });
+      lightMat.color.set(glow > 0.5 ? cur.blue : cur.soft);
       dotMat.opacity = 0.35 + 0.5 * (0.5 + 0.5 * Math.sin(t * 2));
       // camera: frame sweeps from lens to shoulders, shoulders sway like the posture demo
       const f = (t * 0.6) % 1;
