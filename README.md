@@ -80,10 +80,10 @@ The translations were machine-assisted and should be checked by native speakers 
 |---|---|---|
 | SAW-Health, MRC Ageing Research Development Award, grant MR/Y010620/1 (2023–25) | `ukri-mrc.png` | ukri.org |
 | FARSCOPE CDT (EPSRC) | `ukri-epsrc.png` + text wordmark | ukri.org |
-| VIVO Hub for Enhanced Independent Living (EPSRC) | `ukri-epsrc.png` + text wordmark | ukri.org |
+| VIVO Hub for Enhanced Independent Living (EPSRC, grant UKRI142) | `vivo-hub.png` + `ukri-epsrc.png` | thevivohub.com header logo, ukri.org |
 | Universities | `uwe-bristol.png`, `university-of-bristol.svg` | farscope.bris.ac.uk, bristol.ac.uk |
 
-FARSCOPE and VIVO Hub have no downloadable official logo, so their names are set as text. Swap in the
+FARSCOPE has no downloadable official logo, so its name is set as text. Swap in the
 official files when the project offices provide them.
 
 ## Staff pages (museum)
@@ -118,8 +118,7 @@ To preview locally, open `index.html` in a browser, or run `python3 -m http.serv
 
 ## TODO
 
-- [ ] **Funding:** official FARSCOPE and VIVO Hub logos; confirm how the VIVO Hub supports SAW and add its
-      grant reference if one should be cited.
+- [ ] **Funding:** official FARSCOPE logo.
 - [ ] **Translations:** native-speaker review of `es`, `fr`, `de`, `zh`.
 
 - [ ] **PhD thesis:** add the final title and a link (repository or DOI) in the `#thesis` section.
