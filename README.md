@@ -9,9 +9,13 @@ Live URL: https://saw-walker.github.io/
 ## Structure
 
 ```
-index.html              The whole page: hero, video, how it works, publications, thesis, team
+index.html              The whole page: hero, exhibition guide, video, how it works, publications, thesis, team, funding
 assets/css/style.css    All styles (light/dark via prefers-color-scheme, large-text mode, reduced motion)
 assets/js/main.js       Video slot, larger-text and pause toggles, and the animated SVG demos
+assets/js/i18n.js       Language menu and page translation
+assets/js/speak.js      Read-aloud button (browser speech synthesis)
+assets/i18n/<lang>.js   Translations: es, fr, de, zh (keys.json lists every English string)
+assets/img/logos/       Funder and university logos (official files, see Funding below)
 assets/img/logo.png     Project logo (resized from saw_sw/logoSW.png)
 assets/img/icon-180.png Favicon / touch icon
 assets/img/saw-hardware.jpg  Labelled walker photo (from the co-design paper's fig/smart-walker.pdf)
@@ -27,6 +31,11 @@ the project video is embedded from Vimeo (with `dnt=1`) and the study video from
 - System fonts at an 18px base size, plus an **A+** button that enlarges all text (remembered per device).
 - A **pause** button stops every animation. `prefers-reduced-motion` starts with animations paused and
   removes CSS motion. Every demo has a **Next** button, so it can be stepped through by hand.
+- **Read aloud** (speaker button): reads the page with the browser's own voices, starting from what is
+  on screen, highlighting and scrolling to each paragraph. Pause, skip and stop from the bar at the
+  bottom, or press Esc. It uses the voice for the chosen language; nothing is sent anywhere.
+- **Language menu**: English, Español, Français, Deutsch, 中文. Picked from `?lang=xx`, then the last
+  choice on this device, then the browser language.
 - Colour tokens target WCAG AA contrast in light and dark mode, all touch targets are at least 44px,
   and every SVG has a title and description.
 
@@ -48,6 +57,34 @@ the walker code in `saw_sw` / `saw_sw_museum`:
 | Fall demo and brakes | `saw_sw_behaviors/scripts/falls_demo.py` |
 
 The gait numbers in the leg-tracking demo are illustrative, and the page says so.
+
+### Translations
+
+`assets/js/i18n.js` translates the English page in place. Each translation file maps the English text of
+an element (whitespace collapsed) to its translation, which may include the same inline markup
+(`<strong>`, `<em>`, links). Paper titles, authors, venues, DOIs and anything marked `translate="no"`
+stay as they are. Demo captions in `main.js` go through `T()`, with `{n}`-style placeholders.
+
+- **Changing English text:** the edited sentence shows in English in every language until its
+  translation is updated. Nothing breaks.
+- **Finding untranslated text:** open the page with `?lang=es` and run
+  `SAW_I18N.keys().filter(k => !(k.key in SAW_I18N_DATA.es))` in the browser console.
+- **Adding a language:** add it to `LANGS` in `i18n.js` (name and speech voice code) and create
+  `assets/i18n/<code>.js` in the same format as `es.js`.
+
+The translations were machine-assisted and should be checked by native speakers before wide use.
+
+## Funding (logos)
+
+| Project | Logo file | Source |
+|---|---|---|
+| SAW-Health, MRC Ageing Research Development Award, grant MR/Y010620/1 (2023–25) | `ukri-mrc.png` | ukri.org |
+| FARSCOPE CDT (EPSRC) | `ukri-epsrc.png` + text wordmark | ukri.org |
+| VIVO Hub for Enhanced Independent Living (EPSRC) | `ukri-epsrc.png` + text wordmark | ukri.org |
+| Universities | `uwe-bristol.png`, `university-of-bristol.svg` | farscope.bris.ac.uk, bristol.ac.uk |
+
+FARSCOPE and VIVO Hub have no downloadable official logo, so their names are set as text. Swap in the
+official files when the project offices provide them.
 
 ## Staff pages (museum)
 
@@ -81,6 +118,10 @@ To preview locally, open `index.html` in a browser, or run `python3 -m http.serv
 
 ## TODO
 
+- [ ] **Funding:** official FARSCOPE and VIVO Hub logos; confirm how the VIVO Hub supports SAW and add its
+      grant reference if one should be cited.
+- [ ] **Translations:** native-speaker review of `es`, `fr`, `de`, `zh`.
+
 - [ ] **PhD thesis:** add the final title and a link (repository or DOI) in the `#thesis` section.
 - [ ] **Under-review papers:** when published, add venue, year and DOI. PDFs are deliberately *not* included
       (possible embargo):
@@ -89,6 +130,5 @@ To preview locally, open `index.html` in a browser, or run `python3 -m http.serv
   - "A Full-Body IMU Dataset for Fall Detection Research" (data descriptor).
 - [ ] **Hardware photo:** `saw-hardware.jpg` comes from a figure in the under-review co-design paper.
       Confirm it is fine to show publicly before publication, or swap in another photo.
-- [ ] **Team section:** confirm names, titles and roles of supervisors and collaborators, and add funders' wording
-      if wanted (the co-design manuscript acknowledges UKRI MRC grant MR/Y010620/1, EPSRC and FARSCOPE CDT).
+- [ ] **Team section:** confirm names, titles and roles of supervisors and collaborators.
 - [ ] Optional: add a social preview image (1200×630) and a QR code image for print material.

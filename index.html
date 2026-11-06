@@ -49,11 +49,22 @@
     <span class="brand-name">SAW Smart Walker</span>
   </a>
   <nav class="top-links" aria-label="Main">
+    <a href="#exhibition">Exhibition</a>
     <a href="#how">How it works</a>
     <a href="#team">Team</a>
     <a class="btn-solid" href="#publications">Read the papers</a>
   </nav>
   <div class="tools">
+    <label class="lang" translate="no">
+      <svg class="globe" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/></svg>
+      <span class="sr">Language / Idioma / Langue / Sprache / 语言</span>
+      <select id="langSelect"><option value="en">English</option></select>
+    </label>
+    <button type="button" class="tool" id="listen" aria-pressed="false" title="Read the page aloud">
+      <svg class="ico-listen" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+      <svg class="ico-stop" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" fill="currentColor"/></svg>
+      <span class="sr">Read the page aloud</span>
+    </button>
     <button type="button" class="tool" id="textSize" aria-pressed="false" title="Make the text bigger">
       <span aria-hidden="true">A<span class="plus">+</span></span><span class="sr">Larger text</span>
     </button>
@@ -64,11 +75,13 @@
 </header>
 
 <nav class="quicknav" aria-label="Sections">
+  <a href="#exhibition">Exhibition</a>
   <a href="#video">Video</a>
   <a href="#how">How it works</a>
   <a href="#publications">Papers</a>
   <a href="#thesis">Thesis</a>
   <a href="#team">Team</a>
+  <a href="#funding">Funding</a>
 </nav>
 
 <main id="main">
@@ -76,12 +89,14 @@
 <!-- ============================== HERO ============================== -->
 <section class="hero" id="top">
   <nav class="hero-side" aria-label="On this page">
+    <a href="#exhibition">Visiting the exhibition</a>
     <a href="#video">The walker on video</a>
     <a href="#how">Sensing and feedback</a>
     <a href="#how">Virtual companion</a>
     <a href="#publications">Research papers</a>
     <a href="#thesis">PhD thesis</a>
     <a href="#team">Team and thanks</a>
+    <a href="#funding">Funding and partners</a>
   </nav>
   <div class="hero-text">
     <p class="eyebrow">Bristol Robotics Laboratory · UWE Bristol</p>
@@ -175,6 +190,28 @@
       <div><span class="stat-n">7</span><span class="stat-l">interactive explainers</span></div>
       <div><span class="stat-n">2</span><span class="stat-l">countries: UK and Colombia</span></div>
     </div>
+  </div>
+</section>
+
+<!-- ============================== EXHIBITION ============================== -->
+<section class="section" id="exhibition" aria-labelledby="exh-h">
+  <h2 id="exh-h">Try the walker at the exhibition</h2>
+  <p class="section-intro">At the museum the walker runs a guided tour on its own screen. It works offline: nothing you say and no camera image is recorded or sent anywhere. You do not need to press anything to start, but you are welcome to try these:</p>
+  <ol class="howto">
+    <li><h3>Watch and listen</h3><p>The tour plays by itself, with a spoken voice and the handle lights. Each part shows one thing the walker can do: its friendly face, daily tasks, walking, the laser, posture, directions and safety.</p></li>
+    <li><h3>Jump to a part</h3><p>Tap one of the tiles at the bottom of the screen to go straight to that part of the tour. <strong>Restart</strong> goes back to the beginning.</p></li>
+    <li><h3>Stand behind the walker</h3><p>In the <em>Walking</em> and <em>Laser</em> parts, stand between the handles and walk on the spot. The laser near the floor finds your legs and shows them on the screen, live. Step back or to one side and watch the lights change.</p></li>
+    <li><h3>Strike a pose</h3><p>In the <em>Posture</em> part, stand in front of the walker. The camera finds your shoulders: lean to one side, then raise both hands to say hello. The picture is only shown on the screen, never stored.</p></li>
+    <li><h3>Talk to me</h3><p>Tap <strong>Talk to me</strong>. When the screen says <q>I'm listening… ask me a question</q>, ask a short question in English, such as <q>What can you do?</q> or <q>Who made you?</q>. It answers out loud. Tap <strong>Ask another question</strong> to keep chatting. The walker only understands English for now.</p></li>
+    <li><h3>Make it easier to follow</h3><p>Use <strong>A−</strong> and <strong>A+</strong> for smaller or bigger text, and the speaker button to mute or unmute the voice.</p></li>
+  </ol>
+  <div class="card notice">
+    <h3>Please remember</h3>
+    <ul>
+      <li>This walker is a research prototype for display. Please do not lean on it, sit on it or use it as a walking aid.</li>
+      <li>Please do not touch the cables, the laser near the floor or the camera.</li>
+      <li>Something not working? Please tell a member of staff. Staff can find help in the <a href="staff/guide.html">staff guide</a>.</li>
+    </ul>
   </div>
 </section>
 
@@ -680,9 +717,47 @@
       <p>To the older adults, carers and care professionals who tested the walker and helped shape it. To the Bristol Robotics Laboratory, a collaboration between UWE Bristol and the University of Bristol, and to the FARSCOPE Centre for Doctoral Training.</p>
     </div>
   </div>
+  <div class="card contact-card">
+    <h3>Contact the team</h3>
+    <ul class="emails">
+      <li><span>Prof. Carlos A. Cifuentes</span> <a href="mailto:carlos.cifuentes@uwe.ac.uk" translate="no">carlos.cifuentes@uwe.ac.uk</a></li>
+      <li><span>Dr Marcela Múnera</span> <a href="mailto:marcela.munera@uwe.ac.uk" translate="no">marcela.munera@uwe.ac.uk</a></li>
+      <li><span>Sergio D. Sierra Marín</span> <a href="mailto:sergio.sierramarin@uwe.ac.uk" translate="no">sergio.sierramarin@uwe.ac.uk</a></li>
+    </ul>
+  </div>
   <p class="contact">
     <a class="cta" href="https://github.com/saw-walker">Project on GitHub <span aria-hidden="true">↗</span></a>
   </p>
+</section>
+
+<!-- ============================== FUNDING ============================== -->
+<section class="section" id="funding" aria-labelledby="fund-h">
+  <h2 id="fund-h">Funding and partners</h2>
+  <p class="section-intro">SAW is developed at the Bristol Robotics Laboratory, a collaboration between UWE Bristol and the University of Bristol, with support from these projects.</p>
+  <div class="funders">
+    <article class="card funder">
+      <div class="logo-tile"><img src="assets/img/logos/ukri-mrc.png" alt="UKRI Medical Research Council" height="72" loading="lazy"></div>
+      <h3>SAW-Health</h3>
+      <p><em>Socially Assistive Walker to Promote Health and Well-being in Older Adults.</em> Funded by the UKRI Medical Research Council through an Ageing Research Development Award, 2023 to 2025.</p>
+      <p class="grant" translate="no">Grant MR/Y010620/1</p>
+    </article>
+    <article class="card funder">
+      <div class="logo-tile"><span class="wordmark" translate="no">FARSCOPE</span><img src="assets/img/logos/ukri-epsrc.png" alt="UKRI Engineering and Physical Sciences Research Council" height="72" loading="lazy"></div>
+      <h3>FARSCOPE Centre for Doctoral Training</h3>
+      <p>The EPSRC Centre for Doctoral Training in Future Autonomous and Robotic Systems, run by the University of Bristol and UWE Bristol at the Bristol Robotics Laboratory. The PhD behind SAW is part of FARSCOPE.</p>
+      <p class="grant"><a href="https://farscope.bris.ac.uk/">farscope.bris.ac.uk</a></p>
+    </article>
+    <article class="card funder">
+      <div class="logo-tile"><span class="wordmark" translate="no">VIVO Hub</span><img src="assets/img/logos/ukri-epsrc.png" alt="UKRI Engineering and Physical Sciences Research Council" height="72" loading="lazy"></div>
+      <h3>VIVO Hub for Enhanced Independent Living</h3>
+      <p>An EPSRC-funded hub based at the Bristol Robotics Laboratory, led by the University of Bristol with UWE Bristol, UCL, Imperial College London and the University of Strathclyde. It brings robotic and digital health technologies into everyday life so that older and disabled people can stay mobile and independent at home.</p>
+      <p class="grant"><a href="https://www.bristol.ac.uk/research/groups/softlab/research/the-vivo-hub/">About the VIVO Hub</a></p>
+    </article>
+  </div>
+  <div class="partners" aria-label="Universities">
+    <div class="logo-tile"><img src="assets/img/logos/uwe-bristol.png" alt="UWE Bristol, University of the West of England" height="56" loading="lazy"></div>
+    <div class="logo-tile"><img src="assets/img/logos/university-of-bristol.svg" alt="University of Bristol" height="56" loading="lazy"></div>
+  </div>
 </section>
 
 </main>
@@ -692,7 +767,9 @@
   <p><a href="#top">Back to top ↑</a></p>
 </footer>
 
+<script src="assets/js/i18n.js"></script>
 <script src="assets/js/main.js"></script>
+<script src="assets/js/speak.js"></script>
 <script type="module" src="assets/js/scenes.js"></script>
 </body>
 </html>

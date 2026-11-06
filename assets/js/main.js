@@ -11,6 +11,12 @@
   var $ = function (sel, ctx) { return (ctx || document).querySelector(sel); };
   var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
   var role = function (el, name) { return el.querySelector('[data-role="' + name + '"]'); };
+  // Translate a string (see i18n.js); {name} placeholders are filled from vars after translating.
+  var T = function (s, vars) {
+    var out = window.SAW_I18N ? window.SAW_I18N.t(s) : s;
+    if (vars) out = out.replace(/\{(\w+)\}/g, function (m, k) { return vars[k] != null ? vars[k] : m; });
+    return out;
+  };
 
   /* ---------------- larger text ---------------- */
   var textBtn = $('#textSize');
@@ -31,8 +37,8 @@
     paused = p;
     root.classList.toggle('paused', p);
     motionBtn.setAttribute('aria-pressed', p ? 'true' : 'false');
-    motionLabel.textContent = p ? 'Play animations' : 'Pause animations';
-    motionBtn.title = p ? 'Play animations' : 'Pause animations';
+    motionLabel.textContent = p ? T('Play animations') : T('Pause animations');
+    motionBtn.title = p ? T('Play animations') : T('Pause animations');
     if (remember) store.set('saw-paused', p ? '1' : '0');
     demos.forEach(function (d) { d.sync(); });
   }
@@ -51,7 +57,7 @@
       var vf = document.createElement('iframe');
       vf.src = 'https://player.vimeo.com/video/' + vimeo + '?' +
         (/^[0-9a-f]{6,20}$/i.test(vimeoHash) ? 'h=' + vimeoHash + '&' : '') + 'dnt=1&title=0&byline=0&portrait=0';
-      vf.title = 'SAW Smart Walker video';
+      vf.title = T('SAW Smart Walker video');
       vf.allow = 'autoplay; fullscreen; picture-in-picture';
       vf.allowFullscreen = true;
       vf.loading = 'lazy';
@@ -153,12 +159,12 @@
   function setPill(el, text, kind) {
     var p = role(el, 'pill');
     if (!p) return;
-    p.textContent = text;
+    p.textContent = T(text);
     p.className = 'pill' + (kind ? ' is-' + kind : '');
   }
   function setCaption(el, text) {
     var c = role(el, 'caption');
-    if (c) c.textContent = text;
+    if (c) c.textContent = T(text);
   }
   function setColor(node, color) {
     if (!node) return;
@@ -219,7 +225,7 @@
         var step = 0.38 + Math.random() * 0.08;
         var cad = 88 + Math.round(Math.random() * 16);
         role(d.el, 'm-step').textContent = step.toFixed(2) + ' m';
-        role(d.el, 'm-cad').textContent = cad + ' steps/min';
+        role(d.el, 'm-cad').textContent = T('{n} steps/min', { n: cad });
         role(d.el, 'm-spd').textContent = (step * cad / 60).toFixed(2) + ' m/s';
       }
     }
@@ -244,10 +250,11 @@
         setCaption(d.el, 'No pressure on either handle: nobody is holding on.');
       } else if (idx <= 0.2) {
         setPill(d.el, 'Balanced', '');
-        setCaption(d.el, 'Balance index ' + idx.toFixed(2) + ' (0.2 or less is balanced).');
+        setCaption(d.el, T('Balance index {i} (0.2 or less is balanced).', { i: idx.toFixed(2) }));
       } else {
         setPill(d.el, 'Uneven', 'amber');
-        setCaption(d.el, 'More weight on the ' + (L > R ? 'left' : 'right') + ' (index ' + idx.toFixed(2) + '). “Try to keep a gentle, even pressure through both hands.”');
+        setCaption(d.el, T(L > R ? 'More weight on the left (index {i}). “Try to keep a gentle, even pressure through both hands.”'
+          : 'More weight on the right (index {i}). “Try to keep a gentle, even pressure through both hands.”', { i: idx.toFixed(2) }));
       }
     }
   };
@@ -306,7 +313,7 @@
     role(d.el, 'dot').setAttribute('transform', 'translate(' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ') rotate(' + heading.toFixed(1) + ')');
     role(d.el, 'needle').style.transform = 'rotate(' + heading.toFixed(1) + 'deg)';
     role(d.el, 'wheel').style.transform = 'rotate(' + (s * 3).toFixed(1) + 'deg)';
-    role(d.el, 'ticks').textContent = Math.round(s * 24) + ' ticks';
+    role(d.el, 'ticks').textContent = T('{n} ticks', { n: Math.round(s * 24) });
     if (s >= d.path.len - 0.5) {
       setPill(d.el, 'Route saved', 'info');
       setCaption(d.el, 'The walker now knows this route and can guide someone along it.');
@@ -426,9 +433,9 @@
     var step = t.steps[d.k];
     var face = role(d.el, 'face');
     face.setAttribute('data-emotion', step[1]);
-    role(d.el, 'title').textContent = t.title;
+    role(d.el, 'title').textContent = T(t.title);
     setCaption(d.el, step[0]);
-    role(d.el, 'count').textContent = 'Step ' + (d.k + 1) + ' of ' + t.steps.length;
+    role(d.el, 'count').textContent = T('Step {k} of {n}', { k: d.k + 1, n: t.steps.length });
     $$('button[data-task]', d.el).forEach(function (b) {
       b.setAttribute('aria-pressed', b.getAttribute('data-task') === d.task ? 'true' : 'false');
     });
@@ -440,8 +447,8 @@
   /* ---------------- 8. navigation ---------------- */
   var NAV_LIGHTS = {
     straight: ['green', 'green', 'Go straight', '', 'Both handles green.'],
-    left: ['green', 'off', 'Turn left', 'neutral', 'Left handle lights up and vibrates.'],
-    right: ['off', 'green', 'Turn right', 'neutral', 'Right handle lights up and vibrates.'],
+    left: ['green', 'off', 'Turn left', 'neutral', '“Turn left.” Left handle lights up and vibrates.'],
+    right: ['off', 'green', 'Turn right', 'neutral', '“Turn right.” Right handle lights up and vibrates.'],
     arrived: ['blue', 'blue', 'Arrived', 'info', '“You have arrived.” Both handles blue.']
   };
   var navDef = {
@@ -496,7 +503,7 @@
       toggleClass(hl, 'buzz', instr === 'left');
       toggleClass(hr, 'buzz', instr === 'right');
       setPill(d.el, L[2], L[3]);
-      setCaption(d.el, (instr === 'left' || instr === 'right' ? '“' + L[2] + '.” ' : '') + L[4]);
+      setCaption(d.el, L[4]);
     }
   }
 
@@ -524,6 +531,14 @@
   }
 
   setPaused(paused, false);
+
+  // Re-render the demos and labels in the newly chosen language.
+  if (window.SAW_I18N) {
+    window.SAW_I18N.onChange(function () {
+      setPaused(paused, false);
+      demos.forEach(function (d) { d.instr = null; d.go(d.i); });
+    });
+  }
   if (reduceMQ.addEventListener) {
     reduceMQ.addEventListener('change', function (e) {
       if (store.get('saw-paused') === null) setPaused(e.matches, false);

@@ -425,3 +425,68 @@ html.paused *, html.paused *::before, html.paused *::after { animation-play-stat
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ---------- exhibition how-to ---------- */
+.howto { list-style: none; counter-reset: howto; padding: 0; margin: 24px 0; display: grid; gap: 0; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+@media (min-width: 760px) { .howto { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .howto { grid-template-columns: repeat(3, 1fr); } }
+.howto li { counter-increment: howto; padding: 18px 20px 20px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.howto li::before { content: counter(howto); display: inline-grid; place-items: center; width: 2em; height: 2em; margin-bottom: 8px; background: var(--blue); color: #fff; font-family: var(--display); font-weight: 700; font-size: 1.1rem; }
+.howto h3 { margin: 0 0 .3em; font-size: 1.25rem; }
+.howto p { margin: 0; color: var(--ink-2); }
+.notice { border-left: 6px solid var(--amber); max-width: 52em; }
+.notice h3 { margin-top: 0; }
+.notice ul { margin: 0; padding-left: 1.2em; color: var(--ink-2); }
+.notice li + li { margin-top: .3em; }
+
+/* ---------- funding ---------- */
+.funders { display: grid; gap: 0; margin-top: 24px; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+@media (min-width: 900px) { .funders { grid-template-columns: repeat(3, 1fr); } }
+.funders .card { border: 0; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); display: flex; flex-direction: column; gap: .6em; }
+.funder h3 { margin: .2em 0 0; }
+.funder .grant { margin-top: auto; padding-top: .4em; font-size: .92rem; font-weight: 600; color: var(--ink); }
+/* logos keep their official colours, so they sit on a white tile in both themes */
+.logo-tile { background: #fff; border: 1px solid var(--line); padding: 12px 16px; display: flex; align-items: center; justify-content: flex-start; gap: 18px; min-height: 96px; flex-wrap: wrap; }
+.logo-tile img { height: 72px; width: auto; max-width: 100%; display: block; }
+.wordmark { font-family: var(--display); font-weight: 700; font-size: 1.7rem; letter-spacing: .04em; color: #14186b; line-height: 1; }
+.partners { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 24px; }
+.partners .logo-tile { min-height: 80px; }
+.partners .logo-tile img { height: 56px; }
+
+/* ---------- contact ---------- */
+.contact-card { margin-top: 24px; border-top: 0; }
+.contact-card h3 { margin-top: 0; }
+.emails { list-style: none; margin: 0; padding: 0; display: grid; gap: .5em; }
+.emails li { display: flex; flex-wrap: wrap; gap: .2em .8em; align-items: baseline; }
+.emails span { font-weight: 600; min-width: 13em; }
+.emails a { word-break: break-all; min-height: 32px; display: inline-flex; align-items: center; }
+
+/* ---------- language and read aloud ---------- */
+.lang { position: relative; display: inline-flex; align-items: center; }
+.lang select {
+  appearance: none; -webkit-appearance: none; min-height: 48px; padding: 0 30px 0 34px; border: 1px solid var(--rule);
+  background: transparent; color: var(--ink); font: inherit; font-weight: 600; cursor: pointer; max-width: 9.5em;
+}
+.lang select:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.lang .globe { position: absolute; left: 10px; pointer-events: none; width: 18px; height: 18px; }
+.lang::after { content: "▾"; position: absolute; right: 10px; pointer-events: none; font-size: .8em; }
+.lang select option { color: #1d1e22; background: #fff; }
+.tool .ico-stop { display: none; }
+.tool[aria-pressed="true"] .ico-listen { display: none; }
+.tool[aria-pressed="true"] .ico-stop { display: inline; }
+.tool svg { width: 22px; height: 22px; vertical-align: middle; }
+.reading { outline: 3px solid var(--focus); outline-offset: 4px; background: color-mix(in srgb, var(--focus) 14%, transparent); }
+.speak-toast {
+  position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 50; max-width: calc(100% - 32px);
+  display: flex; align-items: center; gap: 10px; padding: 10px 12px 10px 16px; background: var(--ink); color: var(--bg);
+  font-weight: 600; box-shadow: 0 6px 24px rgba(0,0,0,.25);
+}
+.speak-toast[hidden] { display: none; }
+.speak-toast button { min-height: 44px; min-width: 44px; border: 1px solid currentColor; background: transparent; color: inherit; font: inherit; font-weight: 600; cursor: pointer; padding: 0 12px; }
+.speak-toast .msg { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* phones: keep the top bar on one line */
+@media (max-width: 560px) {
+  .brand-name { display: none; }
+  .tools { gap: 6px; }
+  .lang select { max-width: 7.2em; padding-right: 24px; }
+}
