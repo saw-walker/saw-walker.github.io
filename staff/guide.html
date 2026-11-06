@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>SAW Staff Guide</title>
+  <meta name="description" content="How museum staff switch on, switch off and look after the SAW walker exhibit.">
+  <link rel="icon" type="image/png" href="../assets/img/icon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600&family=Saira+Condensed:wght@500;600;700&display=swap">
+  <style>
+    :root { --bg: #f1f2ee; --ink: #1d1e22; --ink-2: #4a4c55; --rule: #2a2b30; --line: #c9cac4; --blue: #1f6fe0; --red: #c62828; --card: #fff; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) { --bg: #12141f; --ink: #eceef6; --ink-2: #b4b8cc; --rule: #c9cce0; --line: #33374d; --blue: #5b9cf2; --red: #ef5350; --card: #181b29; }
+    }
+    :root[data-theme="dark"] { --bg: #12141f; --ink: #eceef6; --ink-2: #b4b8cc; --rule: #c9cce0; --line: #33374d; --blue: #5b9cf2; --red: #ef5350; --card: #181b29; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.55 "Dosis", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    main { max-width: 860px; margin: 0 auto; padding: 24px 16px 48px; }
+    h1, h2, h3 { font-family: "Saira Condensed", "Arial Narrow", sans-serif; font-weight: 600; line-height: 1.1; margin: 0 0 .4em; }
+    h1 { font-size: clamp(2rem, 6vw, 2.8rem); }
+    h2 { font-size: 1.7rem; margin-top: 1.6em; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+    h3 { font-size: 1.25rem; margin-top: 1.2em; }
+    p { margin: 0 0 .8em; }
+    .lede { font-size: 1.1rem; color: var(--ink-2); }
+    .head { display: grid; grid-template-columns: 1fr; gap: 16px; align-items: center; border-bottom: 1px solid var(--rule); padding-bottom: 16px; }
+    .qr { display: flex; gap: 14px; align-items: center; border: 1px solid var(--rule); background: var(--card); padding: 12px; }
+    .qr img { width: 120px; height: 120px; background: #fff; }
+    .qr p { margin: 0; font-size: .95rem; }
+    @media (min-width: 720px) { .head { grid-template-columns: 1fr 300px; } }
+    ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 0; }
+    ol.steps li { counter-increment: s; position: relative; padding: 10px 0 10px 52px; border-bottom: 1px solid var(--line); }
+    ol.steps li::before { content: counter(s); position: absolute; left: 0; top: 8px; width: 36px; height: 36px; display: grid; place-items: center; background: var(--blue); color: #fff; font-weight: 600; }
+    .box { border: 1px solid var(--rule); padding: 14px 16px; margin: 14px 0; background: var(--card); }
+    .box.warn { border-left: 6px solid var(--red); }
+    .box.tip { border-left: 6px solid var(--blue); }
+    table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: .97rem; }
+    th, td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid var(--line); }
+    th { font-weight: 600; border-bottom: 1px solid var(--rule); }
+    td:first-child { font-weight: 600; width: 32%; }
+    .btn { display: inline-block; margin: 2px 0; padding: 1px 8px; border: 1px solid var(--rule); font-weight: 600; white-space: nowrap; }
+    .btn.red { color: var(--red); border-color: var(--red); }
+    .print { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 18px; background: var(--blue); color: #fff; border: 0; font: inherit; font-weight: 600; cursor: pointer; }
+    footer { margin-top: 32px; padding-top: 12px; border-top: 1px solid var(--rule); color: var(--ink-2); font-size: .9rem; }
+    @media print {
+      :root { --bg: #fff; --ink: #000; --ink-2: #333; --card: #fff; }
+      body { font-size: 11.5pt; }
+      main { max-width: none; padding: 0; }
+      .no-print { display: none !important; }
+      h2 { break-after: avoid; }
+      table, .box, ol.steps li { break-inside: avoid; }
+      @page { size: A4; margin: 14mm; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <div class="head">
+    <div>
+      <h1>SAW walker: staff guide</h1>
+      <p class="lede">How to switch the exhibit on and off, use the staff remote and fix common problems.
+        The walker runs on its own: no internet and no computer needed.</p>
+      <button class="print no-print" type="button" onclick="window.print()">Print this guide</button>
+    </div>
+    <div class="qr">
+      <img src="remote-qr.svg" alt="QR code that opens the staff remote page">
+      <p><b>Staff remote</b><br>Scan to open<br><span style="white-space:nowrap">saw-walker.github.io/staff</span></p>
+    </div>
+  </div>
+
+  <h2>Every day</h2>
+  <h3>Switching on</h3>
+  <ol class="steps">
+    <li>Switch on the walker's power at the wall (or plug it in).</li>
+    <li>Wait about <b>2 minutes</b>. The screen shows the tour and it starts by itself, with the handle lights and the voice.</li>
+    <li>Nothing else to do. The tour repeats all day. Visitors can tap the buttons along the bottom of the screen.</li>
+  </ol>
+
+  <h3>Switching off</h3>
+  <ol class="steps">
+    <li>Open the <b>staff remote</b> on your phone (scan the QR code above), stand near the walker and tap <span class="btn">Connect to the walker</span></li>
+    <li>Enter the staff password and tap <span class="btn red">Shut down</span>, then confirm. The handle lights flash red.</li>
+    <li>Wait until the walker's <b>screen goes dark</b> (about 15 seconds).</li>
+    <li>Switch off at the wall.</li>
+  </ol>
+  <div class="box tip">
+    <b>No phone to hand?</b> You can switch off at the wall directly. The walker is set up to cope with this,
+    but a proper shut down is safer for its memory card. Please <b>avoid</b> switching off during the first 2 minutes after switching on.
+  </div>
+
+  <h2>The staff remote</h2>
+  <p>The staff remote works over <b>Bluetooth</b>, within a few metres of the walker. It needs the staff password
+    (ask the research team, it is not written here).</p>
+  <table>
+    <tr><th>Phone</th><th>What to use</th></tr>
+    <tr><td>Android</td><td>Chrome. Allow Bluetooth and "Nearby devices" when asked.</td></tr>
+    <tr><td>iPhone / iPad</td><td>The free <b>Bluefy</b> browser from the App Store (Safari does not support Bluetooth).</td></tr>
+    <tr><td>Laptop</td><td>Chrome or Edge with Bluetooth switched on.</td></tr>
+  </table>
+  <table>
+    <tr><th>Button</th><th>What it does</th></tr>
+    <tr><td><span class="btn">Status</span></td><td>Shows how long it has been running and whether the lights, voice and screen are working.</td></tr>
+    <tr><td><span class="btn">Restart tour</span></td><td>Starts the tour again from the beginning (takes a few seconds).</td></tr>
+    <tr><td><span class="btn">Mute narration</span> / <span class="btn">Unmute narration</span></td><td>Turns the tour's voice off or on. Visitors can still ask questions with "Talk to me".</td></tr>
+    <tr><td><span class="btn red">Restart walker</span></td><td>Restarts the whole walker. Back after about 2 minutes.</td></tr>
+    <tr><td><span class="btn red">Shut down</span></td><td>Shuts the walker down safely before switching off at the wall.</td></tr>
+  </table>
+  <p>After <b>5 wrong passwords</b> the remote locks itself for 5 minutes.</p>
+
+  <h2>If something is wrong</h2>
+  <table>
+    <tr><th>What you see</th><th>What to do</th></tr>
+    <tr><td>Black screen, or the screen is frozen</td><td>Staff remote: <span class="btn">Restart tour</span>. If that does not help: <span class="btn red">Restart walker</span>. Without a phone: switch off at the wall, wait 10 seconds, switch on.</td></tr>
+    <tr><td>Error page ("Aw, Snap!")</td><td>Wait 1–2 minutes: the walker restarts the screen by itself. Otherwise as above.</td></tr>
+    <tr><td>No voice</td><td>Check whether narration is muted (red speaker button at the top of the screen, or <span class="btn">Status</span> on the remote). Tap it or use <span class="btn">Unmute narration</span>.</td></tr>
+    <tr><td>Handle lights stay off</td><td><span class="btn red">Restart walker</span>. If they are still off, tell the research team.</td></tr>
+    <tr><td>Screen upside down</td><td>Wait a few seconds, it corrects itself. If not, restart the walker.</td></tr>
+    <tr><td>"Talk to me" button missing</td><td>It appears a minute or two after switching on. If it stays missing, restart the walker.</td></tr>
+    <tr><td>The "Laser" or "Posture" part of the tour is skipped</td><td>A sensor is not connected. Do not open the walker; tell the research team.</td></tr>
+    <tr><td>The walker does not start at all</td><td>Tell the research team. If you have been given a <b>spare memory card</b>, they may ask you to swap it.</td></tr>
+  </table>
+
+  <h2>Please</h2>
+  <div class="box warn">
+    <ul>
+      <li>Do not unplug or move the cables, the laser sensor near the floor or the camera.</li>
+      <li>The walker is an exhibit: please do not let visitors use it as a walking aid or lean their weight on it.</li>
+      <li>Clean the touch screen with a dry or slightly damp soft cloth only.</li>
+      <li>The camera image and voices are processed on the walker and never recorded or sent anywhere.</li>
+    </ul>
+  </div>
+
+  <h2>Contact</h2>
+  <p>SAW research team, Bristol Robotics Laboratory: Sergio D. Sierra Marín.
+    <!-- TODO: add a phone number / email for the museum -->
+    Project page: <a href="https://saw-walker.github.io/">saw-walker.github.io</a></p>
+
+  <footer>SAW Smart Walker · Bristol Robotics Laboratory · UWE Bristol</footer>
+</main>
+</body>
+</html>

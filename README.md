@@ -49,6 +49,17 @@ the walker code in `saw_sw` / `saw_sw_museum`:
 
 The gait numbers in the leg-tracking demo are illustrative, and the page says so.
 
+## Staff pages (museum)
+
+Not linked from the main page and hidden from search engines (`noindex`):
+
+- `staff/index.html`: **staff remote** (https://saw-walker.github.io/staff/). Web Bluetooth page that talks to the
+  walker's `saw-staff` service (`saw_sw_web/museum/staff_ble.py` in the walker repo): status, restart tour,
+  mute / unmute, restart walker, shut down. Password-protected with a challenge-response (HMAC-SHA256); the
+  password never travels over the air and is not in this repo.
+- `staff/guide.html`: **staff guide** for the museum (switching on / off, the remote, troubleshooting), printable on A4,
+  with a QR code (`staff/remote-qr.svg`) that opens the remote.
+
 ## Setting the project video
 
 At the top of `index.html` there is a single block, `window.SAW_CONFIG.video`. The first one set wins:
