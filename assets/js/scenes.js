@@ -131,14 +131,17 @@ function heroScene({ scene, camera, canvas, colors }) {
   }
   add(tube(V(-0.28, 0.2, 0.2), V(0.28, 0.2, 0.2), 0.008, colors));   // low bar with the laser
 
-  const seat = add(inked(new THREE.BoxGeometry(0.5, 0.03, 0.36), colors));
-  seat.position.set(0, 0.45, -0.01);
+  const seat = add(inked(new THREE.BoxGeometry(0.46, 0.05, 0.34), colors));
+  seat.position.set(0, 0.47, -0.01);
+  // basket under the seat (holds the onboard electronics and CPU)
+  const basket = add(inked(new THREE.BoxGeometry(0.4, 0.2, 0.28), colors));
+  basket.position.set(0, 0.33, -0.01);
 
-  // Tablet with face on an adjustable holder clamped to the right top rail
-  add(tube(V(0.28, 0.87, 0.0), V(0.2, 0.96, 0.03), 0.008, colors));
-  add(tube(V(0.2, 0.96, 0.03), V(0.1, 1.0, 0.06), 0.008, colors));
+  // Tablet with face on a tall pole rising from the left side of the frame
+  add(tube(V(-0.3, 0.3, -0.18), V(-0.3, 1.12, -0.1), 0.009, colors));
+  add(tube(V(-0.3, 1.12, -0.1), V(-0.2, 1.28, -0.06), 0.009, colors));
   const tablet = add(inked(new THREE.BoxGeometry(0.3, 0.2, 0.02), colors));
-  tablet.position.set(0.1, 1.08, 0.07);
+  tablet.position.set(-0.12, 1.34, -0.04);
   // Screen is on the user side (-z); lean its top away from the user so it faces up towards their eyes.
   tablet.rotation.x = 0.3;
   const faceMat = new THREE.MeshBasicMaterial({ map: faceTexture(colors, false) });
@@ -147,11 +150,11 @@ function heroScene({ scene, camera, canvas, colors }) {
   face.rotation.y = Math.PI;
   tablet.add(face);
 
-  // Lights: a U-shaped light bar across the front of the frame (the handlebars only vibrate)
+  // Lights: the U-shaped bar between the handles lights up (the handlebars themselves only vibrate)
   const lightMat = new THREE.MeshBasicMaterial({ color: colors.blue });
   const uCurve = new THREE.CatmullRomCurve3([
-    V(-0.27, 0.62, 0.02), V(-0.26, 0.6, 0.12), V(-0.18, 0.59, 0.17), V(0, 0.59, 0.18),
-    V(0.18, 0.59, 0.17), V(0.26, 0.6, 0.12), V(0.27, 0.62, 0.02)]);
+    V(-0.28, 0.89, -0.2), V(-0.26, 0.82, -0.14), V(-0.16, 0.79, -0.1), V(0, 0.78, -0.09),
+    V(0.16, 0.79, -0.1), V(0.26, 0.82, -0.14), V(0.28, 0.89, -0.2)]);
   const lightBar = new THREE.Mesh(new THREE.TubeGeometry(uCurve, 48, 0.016, 10, false), lightMat);
   walker.add(lightBar);
 
@@ -166,9 +169,9 @@ function heroScene({ scene, camera, canvas, colors }) {
     walker.add(rim);
   }
 
-  // Laser puck and its scan fan near the floor
-  const puck = add(inked(new THREE.CylinderGeometry(0.035, 0.04, 0.04, 20), colors));
-  puck.position.set(0, 0.24, 0.2);
+  // One 360° LiDAR on the low front bar, with its spinning beam near the floor
+  const puck = add(inked(new THREE.CylinderGeometry(0.04, 0.045, 0.05, 20), colors));
+  puck.position.set(0, 0.235, 0.2);
   const fanGeo = new THREE.CircleGeometry(0.9, 48, 0, Math.PI / 5);
   const fanMat = new THREE.MeshBasicMaterial({ color: colors.blue, transparent: true, opacity: 0.18, side: THREE.DoubleSide, depthWrite: false });
   const fan = new THREE.Mesh(fanGeo, fanMat);
@@ -176,12 +179,13 @@ function heroScene({ scene, camera, canvas, colors }) {
   fan.position.set(0, 0.24, 0.2);
   walker.add(fan);
 
-  // 2D camera and microphone on top of the tablet, looking back at the user's upper body (user side is -z)
-  const camPos = V(0.1, 1.2, 0.09);
-  const camBody = add(inked(new THREE.BoxGeometry(0.07, 0.035, 0.035), colors));
+  // Camera on the light bar at hip height, looking up at the user's shoulders (user side is -z),
+  // with the speaker just below it
+  const camPos = V(0.12, 0.83, -0.11);
+  const camBody = add(inked(new THREE.BoxGeometry(0.07, 0.05, 0.04), colors));
   camBody.position.copy(camPos);
-  const mic = add(inked(new THREE.SphereGeometry(0.014, 10, 8), colors));
-  mic.position.set(0.17, 1.2, 0.09);
+  const speaker = add(inked(new THREE.BoxGeometry(0.1, 0.05, 0.05), colors));
+  speaker.position.set(0.12, 0.74, -0.1);
   const lensMat = new THREE.MeshBasicMaterial({ color: colors.blue });
   const lens = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.02, 16), lensMat);
   lens.rotation.x = Math.PI / 2;
