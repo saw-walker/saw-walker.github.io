@@ -202,7 +202,7 @@
 
   /* ---------------- 2. legs & gait ---------------- */
   var LEGS = [
-    { key: 'ok', pill: 'OK', kind: '', dx: 0, dy: 0, led: 'green', text: 'Legs in the comfort zone. Handle lights green.' },
+    { key: 'ok', pill: 'OK', kind: '', dx: 0, dy: 0, led: 'green', text: 'Legs in the comfort zone. Front lights green.' },
     { key: 'far', pill: 'Too far', kind: 'warn', dx: 0, dy: 50, led: 'yellow', text: 'Too far behind the walker. Lights turn yellow.' },
     { key: 'ok', pill: 'OK', kind: '', dx: 0, dy: 0, led: 'green', text: 'Back in the zone. Lights green again.' },
     { key: 'close', pill: 'Too close', kind: 'warn', dx: 0, dy: -44, led: 'yellow', text: 'Too close to the walker frame. Lights turn yellow.' },
@@ -344,8 +344,8 @@
 
   /* ---------------- 6. ESP32 ---------------- */
   var ESP = [
-    { cmd: 'leds left 0 255 0 20', strip: 'green', vib: false, rod: false, text: 'Left handle LEDs glow green (red, green, blue, brightness).' },
-    { cmd: 'leds right 255 150 0 20', strip: 'amber', vib: false, rod: false, text: 'Right handle LEDs glow amber.' },
+    { cmd: 'leds left 0 255 0 20', strip: 'green', vib: false, rod: false, text: 'Left LED strip glows green (red, green, blue, brightness).' },
+    { cmd: 'leds right 255 150 0 20', strip: 'amber', vib: false, rod: false, text: 'Right LED strip glows amber.' },
     { cmd: 'vibr left 1', strip: 'amber', vib: true, rod: false, text: 'Left handle vibrates: 200 ms on, 200 ms off.' },
     { cmd: 'vibr left 0', strip: 'amber', vib: false, rod: false, text: 'Vibration stops.' },
     { cmd: '/brakes ← true', strip: 'off', vib: false, rod: true, text: 'Brakes engage, for example before you sit down to rest.' },
@@ -446,10 +446,10 @@
 
   /* ---------------- 8. navigation ---------------- */
   var NAV_LIGHTS = {
-    straight: ['green', 'green', 'Go straight', '', 'Both handles green.'],
-    left: ['green', 'off', 'Turn left', 'neutral', '“Turn left.” Left handle lights up and vibrates.'],
-    right: ['off', 'green', 'Turn right', 'neutral', '“Turn right.” Right handle lights up and vibrates.'],
-    arrived: ['blue', 'blue', 'Arrived', 'info', '“You have arrived.” Both handles blue.']
+    straight: ['green', 'green', 'Go straight', '', 'Both lights green.'],
+    left: ['green', 'off', 'Turn left', 'neutral', '“Turn left.” Left light glows and the left handle vibrates.'],
+    right: ['off', 'green', 'Turn right', 'neutral', '“Turn right.” Right light glows and the right handle vibrates.'],
+    arrived: ['blue', 'blue', 'Arrived', 'info', '“You have arrived.” Both lights blue.']
   };
   var navDef = {
     steps: 5,

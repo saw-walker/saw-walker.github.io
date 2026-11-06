@@ -147,11 +147,13 @@ function heroScene({ scene, camera, canvas, colors }) {
   face.rotation.y = Math.PI;
   tablet.add(face);
 
-  // Handle lights
+  // LED strips on the front legs (the handles only vibrate)
   const lightMat = new THREE.MeshBasicMaterial({ color: colors.blue });
   const lights = [-1, 1].map((s) => {
-    const m = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.035, 0.05), lightMat);
-    m.position.set(0.28 * s, 0.9, -0.22);
+    const m = new THREE.Mesh(new THREE.BoxGeometry(0.026, 0.3, 0.026), lightMat);
+    // front leg runs from (x, 0.08, 0.22) to (x, 0.86, 0.12); sit on it, slightly outside
+    m.position.set(0.28 * s + 0.014 * s, 0.62, 0.151);
+    m.rotation.x = Math.atan2(0.1, 0.78);
     walker.add(m);
     return m;
   });
@@ -262,7 +264,7 @@ function heroScene({ scene, camera, canvas, colors }) {
       floor.rotation.z = 0;
       fan.rotation.z = t * 5.5;
       const glow = 0.55 + 0.45 * Math.sin(t * 3);
-      lights.forEach((l) => l.scale.setScalar(0.9 + 0.25 * glow));
+      lights.forEach((l) => { const k = 0.85 + 0.45 * glow; l.scale.x = k; l.scale.z = k; });
       dotMat.opacity = 0.35 + 0.5 * (0.5 + 0.5 * Math.sin(t * 2));
       // camera: frame sweeps from lens to shoulders, shoulders sway like the posture demo
       const f = (t * 0.6) % 1;
