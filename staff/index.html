@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>SAW Staff Remote</title>
+  <meta name="description" content="Staff remote for the SAW museum walker over Bluetooth.">
+  <link rel="icon" type="image/png" href="../assets/img/icon-180.png">
+  <style>
+    :root { --bg: #f1f2ee; --ink: #1d1e22; --ink-2: #4a4c55; --rule: #2a2b30; --blue: #1f6fe0; --red: #c62828; --ok: #2e7d32; --card: #fff; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) { --bg: #12141f; --ink: #eceef6; --ink-2: #b4b8cc; --rule: #c9cce0; --blue: #5b9cf2; --red: #ef5350; --ok: #66bb6a; --card: #181b29; }
+    }
+    :root[data-theme="dark"] { --bg: #12141f; --ink: #eceef6; --ink-2: #b4b8cc; --rule: #c9cce0; --blue: #5b9cf2; --red: #ef5350; --ok: #66bb6a; --card: #181b29; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 18px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    main { max-width: 520px; margin: 0 auto; padding: 20px 16px 40px; }
+    h1 { font-size: 1.6rem; margin: 0 0 4px; }
+    p.sub { margin: 0 0 20px; color: var(--ink-2); }
+    label { display: block; font-weight: 600; margin: 16px 0 6px; }
+    input { width: 100%; font: inherit; padding: 12px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); }
+    button { font: inherit; font-weight: 600; min-height: 56px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); cursor: pointer; }
+    button:disabled { opacity: .45; cursor: default; }
+    #connect { width: 100%; background: var(--blue); color: #fff; border-color: var(--blue); margin-top: 16px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+    .danger { color: var(--red); border-color: var(--red); }
+    .wide { grid-column: 1 / -1; }
+    #log { margin-top: 20px; padding: 12px; border: 1px solid var(--rule); background: var(--card); min-height: 3.5em; white-space: pre-wrap; font-size: .95rem; }
+    .ok { color: var(--ok); } .err { color: var(--red); }
+    .note { margin-top: 24px; font-size: .9rem; color: var(--ink-2); }
+  </style>
+</head>
+<body>
+<main>
+  <h1>SAW Staff Remote</h1>
+  <p class="sub">Control the museum walker over Bluetooth. Stand within a few metres of it.</p>
+
+  <label for="pw">Staff password</label>
+  <input id="pw" type="password" autocomplete="current-password" placeholder="Password">
+  <button id="connect" type="button">Connect to the walker</button>
+
+  <div class="grid" id="actions">
+    <button type="button" data-cmd="status" disabled>Status</button>
+    <button type="button" data-cmd="restart_tour" disabled>Restart tour</button>
+    <button type="button" data-cmd="mute" disabled>Mute narration</button>
+    <button type="button" data-cmd="unmute" disabled>Unmute narration</button>
+    <button type="button" data-cmd="reboot" class="danger" disabled>Restart walker</button>
+    <button type="button" data-cmd="shutdown" class="danger" disabled>Shut down</button>
+  </div>
+
+  <div id="log" role="status" aria-live="polite">Not connected.</div>
+
+  <p class="note">
+    <b>Before switching off at the wall:</b> press <b>Shut down</b>, wait until the walker's screen is dark (about 15 s), then switch off.<br>
+    Works in Chrome on Android, Chrome or Edge on a computer, and the Bluefy browser on iPhone/iPad (Safari does not support Bluetooth).
+  </p>
+</main>
+<script>
+(function () {
+  'use strict';
+  var SERVICE = '5a570001-7c1e-4b8e-9d3a-6f2b8a1c0001';
+  var NONCE = '5a570002-7c1e-4b8e-9d3a-6f2b8a1c0001';
+  var COMMAND = '5a570003-7c1e-4b8e-9d3a-6f2b8a1c0001';
+  var RESULT = '5a570004-7c1e-4b8e-9d3a-6f2b8a1c0001';
+  var LABELS = { status: 'Status', restart_tour: 'Restart tour', mute: 'Mute narration', unmute: 'Unmute narration', reboot: 'Restart walker', shutdown: 'Shut down' };
+  var chars = null, device = null, busy = false;
+  var log = document.getElementById('log');
+  var enc = new TextEncoder(), dec = new TextDecoder();
+
+  function say(text, cls) { log.textContent = text; log.className = cls || ''; }
+  function setEnabled(on) {
+    document.querySelectorAll('#actions button').forEach(function (b) { b.disabled = !on; });
+  }
+  function hex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function (x) { return x.toString(16).padStart(2, '0'); }).join(''); }
+
+  async function hmacHex(password, message) {
+    var keyBytes = await crypto.subtle.digest('SHA-256', enc.encode('saw-staff:' + password));
+    var key = await crypto.subtle.importKey('raw', keyBytes, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+    return hex(await crypto.subtle.sign('HMAC', key, enc.encode(message)));
+  }
+
+  document.getElementById('connect').addEventListener('click', async function () {
+    if (!navigator.bluetooth) {
+      say('This browser has no Bluetooth support. Use Chrome on Android or the Bluefy app on iPhone.', 'err');
+      return;
+    }
+    try {
+      say('Choose "SAW Staff" in the list…');
+      device = await navigator.bluetooth.requestDevice({ filters: [{ services: [SERVICE] }] });
+      device.addEventListener('gattserverdisconnected', function () { chars = null; setEnabled(false); say('Disconnected. Press Connect again.'); });
+      var server = await device.gatt.connect();
+      var svc = await server.getPrimaryService(SERVICE);
+      chars = {
+        nonce: await svc.getCharacteristic(NONCE),
+        command: await svc.getCharacteristic(COMMAND),
+        result: await svc.getCharacteristic(RESULT)
+      };
+      setEnabled(true);
+      say('Connected to the walker.', 'ok');
+    } catch (e) {
+      say('Could not connect: ' + e.message, 'err');
+    }
+  });
+
+  document.querySelectorAll('#actions button').forEach(function (b) {
+    b.addEventListener('click', async function () {
+      var cmd = b.getAttribute('data-cmd');
+      var pw = document.getElementById('pw').value;
+      if (!chars || busy) return;
+      if (!pw) { say('Enter the staff password first.', 'err'); return; }
+      if ((cmd === 'shutdown' || cmd === 'reboot') && !confirm(LABELS[cmd] + ' the walker?')) return;
+      busy = true;
+      try {
+        say(LABELS[cmd] + '…');
+        var nonce = dec.decode(await chars.nonce.readValue());
+        var mac = await hmacHex(pw, nonce + '|' + cmd);
+        await chars.command.writeValueWithResponse(enc.encode(cmd + '|' + mac));
+        await new Promise(function (r) { setTimeout(r, 400); });
+        var result = dec.decode(await chars.result.readValue());
+        if (result.indexOf('ok') === 0) {
+          var text = result.slice(3);
+          if (cmd === 'status') {
+            try {
+              var s = JSON.parse(text);
+              text = 'Running for ' + s.uptime_min + ' min\nLights: ' + (s.lights ? 'connected' : 'not connected') +
+                '\nVoice: ' + (s.speech ? 'ready' : 'off') + (s.muted ? ' (muted)' : '') +
+                '\nScreen: ' + (s.page_ok ? 'running' : 'not responding') + (s.server ? '\nServer: ' + s.server : '');
+            } catch (e) { /* show raw */ }
+          }
+          say(text, 'ok');
+        } else {
+          say(result === 'denied' ? 'Wrong password.' : result, 'err');
+        }
+      } catch (e) {
+        say('Failed: ' + e.message, 'err');
+      }
+      busy = false;
+    });
+  });
+})();
+</script>
+</body>
+</html>
